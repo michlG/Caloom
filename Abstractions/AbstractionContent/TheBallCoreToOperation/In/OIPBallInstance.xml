@@ -343,6 +343,7 @@
           <InformationItem name="Nodes" logicalDataType="InformationObject" informationObjectName="RenderedNodeCollection"/>
           <InformationItem name="NodeSourceBlogs" informationObjectName="BlogCollection" logicalDataType="InformationObject"/>
           <InformationItem name="NodeSourceActivities" informationObjectName="ActivityCollection" logicalDataType="InformationObject"/>
+          <InformationItem name="NodeSourceTextContent" informationObjectName="TextContentCollection" logicalDataType="InformationObject"/>
         </InformationItems>
       </InformationObject>
 
@@ -679,6 +680,23 @@
         <InformationItems>
           <InformationItem name="Title" logicalDataType="Text_Short" />
           <InformationItem name="Body" logicalDataType="Text_Long"/>
+        </InformationItems>
+      </InformationObject>
+
+      <InformationObject name="TextContentCollection" designDesc="Collection of text contents">
+        <CollectionFor contentInformationObjectName="TextContent" collectionType="Master" />
+      </InformationObject>
+      <InformationObject name="TextContent" designDesc="Text content" isIndependentMaster="true">
+        <InformationItems>
+          <InformationItem name="ImageData" logicalDataType="InformationObject" informationObjectName="MediaContent"/>
+          <InformationItem name="Title" logicalDataType="Text_Short" />
+          <InformationItem name="SubTitle" logicalDataType="Text_Short" />
+          <InformationItem name="Author" logicalDataType="Text_Short" />
+          <InformationItem name="Excerpt" logicalDataType="Text_Long" />
+          <InformationItem name="Body" logicalDataType="Text_Long" />
+          <InformationItem name="Locations" logicalDataType="InformationObject" informationObjectName="AddressAndLocationCollection"/>
+          <InformationItem name="Categories" logicalDataType="InformationObject" informationObjectName="CategoryCollection"/>
+          <InformationItem name="SortOrderNumber" logicalDataType="Number_ApproxDecimal"/>
         </InformationItems>
       </InformationObject>
 
