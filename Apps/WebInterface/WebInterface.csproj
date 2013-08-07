@@ -82,7 +82,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -134,10 +136,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\OIPExternal.config">
-      <Link>OIPExternal.config</Link>
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Properties\PublishProfiles\demooip.aaltoglobalimpact.org.pubxml" />
     <None Include="Properties\PublishProfiles\demopublicoip.aaltoglobalimpact.org.pubxml" />
     <None Include="Properties\PublishProfiles\demowww.aaltoglobalimpact.org.pubxml" />

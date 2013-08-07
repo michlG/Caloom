@@ -389,7 +389,7 @@ namespace WebInterface
             string contentType = StorageSupport.GetMimeType(Path.GetExtension(contentPath));
             response.ContentType = contentType;
             string prefixStrippedContent = contentPath; //.Substring(AuthGroupPrefixLen + GuidIDLen + 1);
-            string LocalWebRootFolder = @"C:\Users\kalle\WebstormProjects\OIPTemplates\UI\groupmanagement\";
+            string LocalWebRootFolder = @"C:\Users\Michael\WebstormProjects\OIPTemplates\UI\groupmanagement\";
             string fileName = prefixStrippedContent.Replace("oipcms/", LocalWebRootFolder);
             if (File.Exists(fileName))
             {

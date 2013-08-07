@@ -154,7 +154,7 @@ namespace CaloomWorkerRole
         }
 
         protected string CurrWorkerID { get; private set; }
-        public const string CURRENT_HARDCODED_CONTAINER_NAME = "demooip-aaltoglobalimpact-org";
+        public const string CURRENT_HARDCODED_CONTAINER_NAME = "theball-gurschlermichael-com";
 
         public override bool OnStart()
         {

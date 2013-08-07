@@ -14,7 +14,7 @@ namespace AzureSupport
         {
             string hostName = request.Url.DnsSafeHost;
             if (hostName == "localhost")
-                hostName = "demooip.aaltoglobalimpact.org";
+                hostName = "theball.gurschlermichael.com";
             return hostName.Replace('.', '-').ToLower();
         }
 
