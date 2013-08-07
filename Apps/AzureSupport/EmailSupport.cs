@@ -26,8 +26,11 @@ namespace TheBall
             else
                 configString = CloudConfigurationManager.GetSetting("AmazonSESAccessInfo");
             string[] strValues = configString.Split(';');
+          if (strValues.Length >= 2)
+          {
             AWSAccessKey = strValues[0];
             AWSSecretKey = strValues[1];
+          }
         }
 
         public static Boolean SendEmail(String From, String To, String Subject, String Text = null, String HTML = null, String emailReplyTo = null, String returnPath = null)
@@ -127,7 +130,9 @@ namespace TheBall
 
         public static void SendValidationEmail(TBEmailValidation emailValidation)
         {
-            string urlLink = GetUrlLink(emailValidation.ID);
+          string urlLink = GetUrlLink(emailValidation.ID);
+          QueueSupport.ReportStatistics("Email sent! Link: " + urlLink, TimeSpan.FromDays(1));
+          return;
             string emailMessageFormat =
                 @"Welcome to The Open Innovation Platform!
 
@@ -158,7 +163,7 @@ The link is valid for 14 days, after which you need to request new invitation.";
 
         private static string GetUrlLink(string emailValidationID)
         {
-            string urlLink = "http://demooip.aaltoglobalimpact.org/emailvalidation/" + emailValidationID;
+            string urlLink = "http://theball.gurschlermichael.com/emailvalidation/" + emailValidationID;
             return urlLink;
         }
     }

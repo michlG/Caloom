@@ -873,6 +873,8 @@ namespace TheBall
             {
                 case "demooip-aaltoglobalimpact-org":
                     return "demopublicoip-aaltoglobalimpact-org";
+              case "theball-gurschlermichael-com":
+                return "theball-gurschlermichael-com";
                 default:
                     throw new InvalidDataException("Anonymous container not defined for: " +
                                                    StorageSupport.CurrActiveContainer.Name);
