@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 //using System.Net.WebSockets;
+using System.Net.WebSockets;
 using System.Security;
 using System.Text;
 using System.Threading;
@@ -12,7 +13,9 @@ using AzureSupport;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
+using SecuritySupport;
 using TheBall;
+using TheBall.CORE;
 
 namespace WebInterface
 {
@@ -38,7 +41,7 @@ namespace WebInterface
 
         public void ProcessRequest(HttpContext context)
         {
-#if never
+            WebSupport.InitializeContextStorage(context.Request);
             bool isSocket = false;
             if (context.IsWebSocketRequest)
             {
@@ -61,14 +64,34 @@ namespace WebInterface
             {
                 InformationContext.ProcessAndClearCurrent();
             }*/
-#endif
         }
-#if never
+
         private async Task HandleWebSocket(WebSocketContext wsContext)
         {
-            const int maxMessageSize = 1024;
+            const int maxMessageSize = 16 * 1024;
             byte[] receiveBuffer = new byte[maxMessageSize];
             WebSocket socket = wsContext.WebSocket;
+
+            Func<InformationContext, WebSocketContext, WebSocket, byte[], string, Task> OnReceiveMessage = HandleDeviceNegotiations;
+            Action<WebSocketContext, WebSocket> OnClose = HandleCloseMessage;
+            InformationContext informationContext = new InformationContext();
+            var request = HttpContext.Current.Request;
+            string accountEmail = request.Params["accountemail"];
+            string groupID = request.Params["groupID"];
+            if (String.IsNullOrEmpty(accountEmail) == false)
+            {
+                string emailRootID = TBREmailRoot.GetIDFromEmailAddress(accountEmail);
+                var emailRoot = TBREmailRoot.RetrieveFromDefaultLocation(emailRootID);
+                if(emailRoot == null)
+                    throw new SecurityException("No such email defined: " + accountEmail);
+                informationContext.Owner = emailRoot.Account;
+            } else if (String.IsNullOrEmpty(groupID) == false)
+            {
+                TBRGroupRoot groupRoot = TBRGroupRoot.RetrieveFromDefaultLocation(groupID);
+                if(groupRoot == null)
+                    throw new SecurityException("No such groupID defined: " + groupID);
+                informationContext.Owner = groupRoot.Group;
+            }
 
             while (socket.State == WebSocketState.Open)
             {
@@ -77,12 +100,36 @@ namespace WebInterface
                 if (receiveResult.MessageType == WebSocketMessageType.Close)
                 {
                     await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                    OnClose(wsContext, socket);
                 }
                 else if (receiveResult.MessageType == WebSocketMessageType.Binary)
                 {
-                    await
-                        socket.CloseAsync(WebSocketCloseStatus.InvalidMessageType, "Cannot accept binary frame",
-                                          CancellationToken.None);
+                    //await
+                    //    socket.CloseAsync(WebSocketCloseStatus.InvalidMessageType, "Cannot accept binary frame",
+                    //                      CancellationToken.None);
+
+                    int count = receiveResult.Count;
+
+                    while (receiveResult.EndOfMessage == false)
+                    {
+                        if (count >= maxMessageSize)
+                        {
+                            string closeMessage = string.Format("Maximum message size: {0} bytes.", maxMessageSize);
+                            await
+                                socket.CloseAsync(WebSocketCloseStatus.MessageTooBig, closeMessage,
+                                                  CancellationToken.None);
+                            return;
+                        }
+                        receiveResult =
+                            await
+                            socket.ReceiveAsync(new ArraySegment<byte>(receiveBuffer, count, maxMessageSize - count),
+                                                CancellationToken.None);
+                        count += receiveResult.Count;
+                    }
+                    //var receivedString = Encoding.UTF8.GetString(receiveBuffer, 0, count);
+                    byte[] binaryMessage = new byte[count];
+                    Array.Copy(receiveBuffer, binaryMessage, count);
+                    await OnReceiveMessage(informationContext, wsContext, socket, binaryMessage, null);
                 }
                 else
                 {
@@ -104,14 +151,99 @@ namespace WebInterface
                                                 CancellationToken.None);
                         count += receiveResult.Count;
                     }
-                    var receivedString = Encoding.UTF8.GetString(receiveBuffer, 0, count);
-                    var echoString = "You said " + receivedString;
-                    ArraySegment<byte> outputBuffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(echoString));
-                    await socket.SendAsync(outputBuffer, WebSocketMessageType.Text, true, CancellationToken.None);
+                    var textMessage = Encoding.UTF8.GetString(receiveBuffer, 0, count);
+                    await OnReceiveMessage(informationContext, wsContext, socket, null, textMessage);
                 }
             }
         }
-#endif
+
+        private static void HandleCloseMessage(WebSocketContext wsCtx, WebSocket socket)
+        {
+        }
+
+        private async static Task HandleDeviceNegotiations(InformationContext iCtx, WebSocketContext wsCtx, WebSocket socket, byte[] binaryMessage, string textMessage)
+        {
+            bool playBob = false;
+            INegotiationProtocolMember protocolParty = null;
+            if (binaryMessage != null)
+            {
+                iCtx.AccessLockedItems(dict =>
+                {
+                    if (dict.ContainsKey("EKENEGOTIATIONPARTY") == false)
+                    {
+                        TheBallEKE protocolInstance = new TheBallEKE();
+                        protocolInstance.InitiateCurrentSymmetricFromSecret("testsecretXYZ33");
+                        if(playBob)
+                            protocolParty = new TheBallEKE.EKEBob(protocolInstance, true);
+                        else
+                            protocolParty = new TheBallEKE.EKEAlice(protocolInstance, true);
+                        dict.Add("EKENEGOTIATIONPARTY", protocolParty);
+                    }
+                    else
+                    {
+                        protocolParty = (INegotiationProtocolMember)dict["EKENEGOTIATIONPARTY"];
+                    }
+                });
+                if (protocolParty.SendMessageToOtherPartyAsync == null)
+                {
+                    protocolParty.SendMessageToOtherPartyAsync = async bytes => { await SendBinaryMessage(socket, bytes); };
+                    if(playBob) // if we play bob we put the current message already to the pipeline
+                        protocolParty.LatestMessageFromOtherParty = binaryMessage;
+                }
+                else
+                {
+                    // Alice plays first, so only after the second message we start putting messages from Bob
+                    protocolParty.LatestMessageFromOtherParty = binaryMessage;
+                }
+                while (protocolParty.IsDoneWithProtocol == false && protocolParty.WaitForOtherParty == false)
+                {
+                    await protocolParty.PerformNextActionAsync();
+                }
+
+            }
+            else
+            {
+                iCtx.AccessLockedItems(dict =>
+                    {
+                        if (dict.ContainsKey("EKENEGOTIATIONPARTY"))
+                            protocolParty = (INegotiationProtocolMember) dict["EKENEGOTIATIONPARTY"];
+                    });
+                if (protocolParty != null && protocolParty.IsDoneWithProtocol) // Perform POST EKE operations
+                {
+                    iCtx.AccessLockedItems(dict => dict.Remove("EKENEGOTIATIONPARTY"));
+                    FinishDeviceNegotiation(iCtx, protocolParty, textMessage);
+                }
+                //await SendTextMessage(socket, echoString);
+            }
+        }
+
+        private static void FinishDeviceNegotiation(InformationContext iCtx, INegotiationProtocolMember protocolParty, string remainingDetails)
+        {
+            var result = CreateDeviceMembership.Execute(new CreateDeviceMembershipParameters
+                {
+                    Owner = iCtx.Owner,
+                    ActiveSymmetricAESKey = protocolParty.NegotiationResults[0],
+                    DeviceDescription = remainingDetails
+                });
+            CreateAndSendEmailValidationForDeviceJoinConfirmation.Execute(new CreateAndSendEmailValidationForDeviceJoinConfirmationParameters
+                {
+                    DeviceMembership = result.DeviceMembership,
+                    OwningAccount = iCtx.Owner as TBAccount,
+                    OwningGroup = iCtx.Owner as TBCollaboratingGroup,
+                });
+        }
+
+        private async static Task SendTextMessage(WebSocket socket, string textMessage)
+        {
+            ArraySegment<byte> outputBuffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(textMessage));
+            await socket.SendAsync(outputBuffer, WebSocketMessageType.Text, true, CancellationToken.None);
+        }
+
+        private async static Task SendBinaryMessage(WebSocket socket, byte[] binaryMessage)
+        {
+            ArraySegment<byte> outputBuffer = new ArraySegment<byte>(binaryMessage);
+            await socket.SendAsync(outputBuffer, WebSocketMessageType.Binary, true, CancellationToken.None);
+        }
 
         #endregion
     }

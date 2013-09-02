@@ -25,95 +25,43 @@ namespace SecuritySupport
     {
         public static void TestExecution()
         {
-            TheBallEKE instance = new TheBallEKE();
-            instance.InitiateCurrentSymmetricFromSecret("testsecret");
-            EKEAlice alice = new EKEAlice(ekeContext:instance);
-            EKEBob bob = new EKEBob(ekeContext:instance);
+            TheBallEKE bobInstance = new TheBallEKE();
+            bobInstance.InitiateCurrentSymmetricFromSecret("testsecret2");
+            EKEBob bob = new EKEBob(ekeContext: bobInstance);
+
+            TheBallEKE aliceInstance = new TheBallEKE();
+            aliceInstance.InitiateCurrentSymmetricFromSecret("testsecret2");
+            EKEAlice alice = new EKEAlice(ekeContext: aliceInstance);
             // Hook message senders
-            alice.SendMessageToBob = msg =>
+            alice.SendMessageToOtherParty = msg =>
                 {
-                    bob.LatestMessageFromAlice = msg;
-                    bob.WaitForAlice = false;
+                    bob.LatestMessageFromOtherParty = msg;
                 };
-            bob.SendMessageToAlice = msg =>
+            bob.SendMessageToOtherParty = msg =>
                 {
-                    alice.LatestMessageFromBob = msg;
-                    alice.WaitForBob = false;
+                    alice.LatestMessageFromOtherParty = msg;
                 };
             bool ekeInProgress = true;
-            int aliceActionIX = 0;
-            int bobActionIX = 0;
             while (ekeInProgress)
             {
-                bool alicesTurn = alice.IsDoneWithEKE == false && alice.WaitForBob == false;
-                bool bobsTurn = !alicesTurn;
-                if (alicesTurn)
-                {
-                    do
-                    {
-                        alice.AlicesActions[aliceActionIX++]();
-                    } while (alice.IsDoneWithEKE == false && alice.WaitForBob == false);
-                }
-                else
-                {
-                    do
-                    {
-                        bob.BobsActions[bobActionIX++]();
-                    } while (bob.IsDoneWithEKE == false && bob.WaitForAlice == false);
-                }
-                ekeInProgress = alice.IsDoneWithEKE == false || bob.IsDoneWithEKE == false;
+                alice.PerformNextAction();
+                bob.PerformNextAction();
+                ekeInProgress = alice.IsDoneWithProtocol == false || bob.IsDoneWithProtocol == false;
             }
             bool ekeSuccess = true;
-#if never
-            instance.Alice1_1_GenerateKeyPair();
-            instance.Alice1_2_EncryptPublicKeyWithS();
-            instance.Alice1_3_SendEncryptedPublicKeyToBob(msgToBob =>
-                {
-                    instance.Bob.AlicesEncryptedPublicKey = msgToBob;
-                });
-            instance.Bob2_1_DecryptAlicesEncryptedPublicKey();
-            instance.Bob2_2_GenerateRandomSessionKeyWithIV();
-            instance.Bob2_3_EncryptSessionKey();
-            instance.Bob2_4_SendEncryptedSessionKeyToAlice(msgToAlice =>
-                {
-                    instance.Alice.EncryptedSessionKey = msgToAlice;
-                });
-            instance.Alice3_1_DecryptSessionKey();
-            instance.Alice3_2_GenerateAliceRandomValue();
-            instance.Alice3_3_EncryptAliceRandomValueWithSessionKey();
-            instance.Alice3_4_SendEncryptedAliceRandomToBob(msgToBob =>
-                {
-                    instance.Bob.AlicesEncryptedRandom = msgToBob;
-                });
-            instance.Bob4_1_DecryptAlicesEncryptedRandom();
-            instance.Bob4_2_GenerateBobsRandomAndCombineWithAlicesRandom();
-            instance.Bob4_3_SendBothRandomsEncryptedToAlice(msgToAlice =>
-                {
-                    instance.Alice.AlicesRandomWithBobsRandomEncrypted = msgToAlice;
-                });
-            instance.Alice5_1_DecryptBothRandoms();
-            instance.Alice5_2_VerifyAliceRandomInCombinedRandom();
-            instance.Alice5_3_ExtractBobsRandom();
-            instance.Alice5_4_EncryptBobsRandom();
-            instance.Alice5_5_SendEncryptedBobsRandomToBob(msgToBob =>
-                {
-                    instance.Bob.BobsRandomFromAliceEncrypted = msgToBob;
-                });
-            instance.Bob6_1_DecryptBobsRandomFromAlice();
-            instance.Bob6_2_VerifyBobsRandom();
-#endif
         }
 
         public delegate void NegotiationAction();
-
+        public delegate Task NegotiationActionAsync();
 
         private SymmetricSupport SharedSecretEnc;
+        private const int RSAKEYLENGTH = 2048;
 
-        public class EKEAlice
+        public class EKEAlice : INegotiationProtocolMember
         {
-            public TheBallEKE EKEContext;
+            private TheBallEKE EKEContext;
 
-            public EKEAlice(TheBallEKE ekeContext)
+            public EKEAlice(TheBallEKE ekeContext, bool isAsync = false)
             {
                 EKEContext = ekeContext;
                 AlicesActions = new NegotiationAction[]
@@ -130,35 +78,80 @@ namespace SecuritySupport
 
                         AliceX_DoneWithEKE
                     };
+                AlicesActionsAsync = new NegotiationActionAsync[]
+                    {
+                        Alice1_1_GenerateKeyPairAsync, Alice1_2_EncryptPublicKeyWithSAsync, Alice1_3_SendEncryptedPublicKeyToBobAsync,
+
+                        Alice3_0_GetEncryptedSessionKeyFromBobAsync, Alice3_1_DecryptSessionKeyAsync,
+                        Alice3_2_GenerateAliceRandomValueAsync,
+                        Alice3_3_EncryptAliceRandomValueWithSessionKeyAsync, Alice3_4_SendEncryptedAliceRandomToBobAsync,
+
+                        Alice5_0_GetAlicesRandomWithBobsRandomEncryptedFromBobAsync, Alice5_1_DecryptBothRandomsAsync,
+                        Alice5_2_VerifyAliceRandomInCombinedRandomAsync,
+                        Alice5_3_ExtractBobsRandomAsync, Alice5_4_EncryptBobsRandomAsync, Alice5_5_SendEncryptedBobsRandomToBobAsync,
+
+                        AliceX_DoneWithEKEAsync
+                    };
+                CurrentActionIndex = 0;
+                WaitForOtherParty = false;
+                IsAsync = isAsync;
             }
+
+            private int CurrentActionIndex;
 
             private void AliceX_DoneWithEKE()
             {
-                IsDoneWithEKE = true;
+                IsDoneWithProtocol = true;
             }
 
-            public NegotiationAction[] AlicesActions;
+            private NegotiationAction[] AlicesActions; 
+            private NegotiationActionAsync[] AlicesActionsAsync;
 
-            public Action<byte[]> SendMessageToBob;
-            public SymmetricSupport SessionKeyEnc;
+
+            public Action<byte[]> SendMessageToOtherParty { get; set; }
+            public Func<byte[], Task> SendMessageToOtherPartyAsync { get; set; }
+
+            public List<byte[]> NegotiationResults
+            {
+                get
+                {
+                    if (!IsDoneWithProtocol)
+                        return null;
+                    return new List<byte[]>() {SessionKeyEnc.CurrentKey};
+                }
+            }
+
+            private SymmetricSupport SessionKeyEnc;
 
             //public byte[] SharedSecret;
-            public RSACryptoServiceProvider PublicAndPrivateKeys;
-            public byte[] EncryptedPublicKey;
-            public byte[] EncryptedSessionKey;
-            public byte[] AlicesRandom;
-            public byte[] AlicesRandomEncrypted;
-            public byte[] AlicesRandomWithBobsRandomEncrypted;
-            public byte[] AlicesRandomWithBobsRandom;
-            public byte[] BobsRandom;
-            public byte[] BobsRandomEncrypted;
-            public bool WaitForBob;
-            public bool IsDoneWithEKE;
-            public byte[] LatestMessageFromBob;
+            private RSACryptoServiceProvider PublicAndPrivateKeys;
+            private byte[] EncryptedPublicKey;
+            private byte[] EncryptedSessionKey;
+            private byte[] AlicesRandom;
+            private byte[] AlicesRandomEncrypted;
+            private byte[] AlicesRandomWithBobsRandomEncrypted;
+            private byte[] AlicesRandomWithBobsRandom;
+            private byte[] BobsRandom;
+            private byte[] BobsRandomEncrypted;
+            public bool WaitForOtherParty { get; private set; }
+            public bool IsDoneWithProtocol { get; private set; }
+
+            private byte[] latestMessageFromOtherParty;
+            private bool IsAsync;
+
+            public byte[] LatestMessageFromOtherParty
+            {
+                private get { return latestMessageFromOtherParty; }
+                set
+                {
+                    latestMessageFromOtherParty = value;
+                    WaitForOtherParty = false;
+                }
+            }
 
             private void Alice5_5_SendEncryptedBobsRandomToBob()
             {
-                SendMessageToBob(BobsRandomEncrypted);
+                SendMessageToOtherParty(BobsRandomEncrypted);
             }
 
             private void Alice5_4_EncryptBobsRandom()
@@ -180,7 +173,7 @@ namespace SecuritySupport
 
             private void Alice5_0_GetAlicesRandomWithBobsRandomEncryptedFromBob()
             {
-                AlicesRandomWithBobsRandomEncrypted = LatestMessageFromBob;
+                AlicesRandomWithBobsRandomEncrypted = LatestMessageFromOtherParty;
             }
             
             private void Alice5_1_DecryptBothRandoms()
@@ -190,8 +183,8 @@ namespace SecuritySupport
 
             private void Alice3_4_SendEncryptedAliceRandomToBob()
             {
-                SendMessageToBob(AlicesRandomEncrypted);
-                WaitForBob = true;
+                SendMessageToOtherParty(AlicesRandomEncrypted);
+                WaitForOtherParty = true;
             }
 
             private void Alice3_3_EncryptAliceRandomValueWithSessionKey()
@@ -206,7 +199,7 @@ namespace SecuritySupport
 
             private void Alice3_0_GetEncryptedSessionKeyFromBob()
             {
-                EncryptedSessionKey = LatestMessageFromBob;
+                EncryptedSessionKey = LatestMessageFromOtherParty;
             }
 
             private void Alice3_1_DecryptSessionKey()
@@ -218,8 +211,8 @@ namespace SecuritySupport
 
             private void Alice1_3_SendEncryptedPublicKeyToBob()
             {
-                SendMessageToBob(EncryptedPublicKey);
-                WaitForBob = true;
+                SendMessageToOtherParty(EncryptedPublicKey);
+                WaitForOtherParty = true;
             }
 
             private void Alice1_2_EncryptPublicKeyWithS()
@@ -230,7 +223,7 @@ namespace SecuritySupport
 
             private void Alice1_1_GenerateKeyPair()
             {
-                using (var rsa = new RSACryptoServiceProvider(1024))
+                using (var rsa = new RSACryptoServiceProvider(TheBallEKE.RSAKEYLENGTH))
                 {
                     try
                     {
@@ -244,16 +237,117 @@ namespace SecuritySupport
             }
 
 
+            public void PerformNextAction()
+            {
+                if (IsAsync)
+                    throw new NotSupportedException("PerformNextAction not supported on Async mode, use PerformNextActionAsync instead");
+                if (IsDoneWithProtocol || WaitForOtherParty)
+                    return;
+                AlicesActions[CurrentActionIndex++]();
+            }
 
+
+            #region Async Methods
+
+            public async Task PerformNextActionAsync()
+            {
+                if (!IsAsync)
+                    throw new NotSupportedException("PerformNextActionAsync not supported on non-async mode, use PerformNextAction instead");
+                if (IsDoneWithProtocol || WaitForOtherParty)
+                    return;
+                await AlicesActionsAsync[CurrentActionIndex++]();
+            }
+
+            private async Task AliceX_DoneWithEKEAsync()
+            {
+                AliceX_DoneWithEKE();
+            }
+
+            private async Task Alice5_5_SendEncryptedBobsRandomToBobAsync()
+            {
+                await SendMessageToOtherPartyAsync(BobsRandomEncrypted);
+            }
+
+            private async Task Alice5_4_EncryptBobsRandomAsync()
+            {
+                Alice5_4_EncryptBobsRandom();
+            }
+
+            private async Task Alice5_3_ExtractBobsRandomAsync()
+            {
+                Alice5_3_ExtractBobsRandom();
+            }
+
+            private async Task Alice5_2_VerifyAliceRandomInCombinedRandomAsync()
+            {
+                Alice5_2_VerifyAliceRandomInCombinedRandom();
+            }
+
+            private async Task Alice5_0_GetAlicesRandomWithBobsRandomEncryptedFromBobAsync()
+            {
+                Alice5_0_GetAlicesRandomWithBobsRandomEncryptedFromBob();
+            }
+
+            private async Task Alice5_1_DecryptBothRandomsAsync()
+            {
+                Alice5_1_DecryptBothRandoms();
+            }
+
+            private async Task Alice3_4_SendEncryptedAliceRandomToBobAsync()
+            {
+                await SendMessageToOtherPartyAsync(AlicesRandomEncrypted);
+                WaitForOtherParty = true;
+            }
+
+            private async Task Alice3_3_EncryptAliceRandomValueWithSessionKeyAsync()
+            {
+                Alice3_3_EncryptAliceRandomValueWithSessionKey();
+            }
+
+            private async Task Alice3_2_GenerateAliceRandomValueAsync()
+            {
+                Alice3_2_GenerateAliceRandomValue();
+            }
+
+            private async Task Alice3_0_GetEncryptedSessionKeyFromBobAsync()
+            {
+                Alice3_0_GetEncryptedSessionKeyFromBob();
+            }
+
+            private async Task Alice3_1_DecryptSessionKeyAsync()
+            {
+                Alice3_1_DecryptSessionKey();
+            }
+
+            private async Task Alice1_3_SendEncryptedPublicKeyToBobAsync()
+            {
+                await SendMessageToOtherPartyAsync(EncryptedPublicKey);
+                WaitForOtherParty = true;
+            }
+
+            private async Task Alice1_2_EncryptPublicKeyWithSAsync()
+            {
+                Alice1_2_EncryptPublicKeyWithS();
+            }
+
+            private async Task Alice1_1_GenerateKeyPairAsync()
+            {
+                Alice1_1_GenerateKeyPair();
+            }
+
+            #endregion
         }
 
-        public class EKEBob
+        public class EKEBob : INegotiationProtocolMember
         {
-            public TheBallEKE EKEContext;
-            public NegotiationAction[] BobsActions;
+            private TheBallEKE EKEContext;
+            private NegotiationAction[] BobsActions;
+            private NegotiationActionAsync[] BobsActionsAsync;
 
-            public EKEBob(TheBallEKE ekeContext)
+
+            public EKEBob(TheBallEKE ekeContext, bool isAsync = false)
             {
+                EKEAlice al;
                 EKEContext = ekeContext;
                 BobsActions = new NegotiationAction[]
                     {
@@ -269,30 +363,74 @@ namespace SecuritySupport
 
                         BobX_DoneWithEKE
                     };
+                BobsActionsAsync = new NegotiationActionAsync[]
+                    {
+                        Bob2_0_GetAlicesEncryptedPublicKeyFromAliceAsync, Bob2_1_DecryptAlicesEncryptedPublicKeyAsync,
+                        Bob2_2_GenerateRandomSessionKeyWithIVAsync, Bob2_3_EncryptSessionKeyAsync,
+                        Bob2_4_SendEncryptedSessionKeyToAliceAsync,
+
+                        Bob4_0_GetAlicesRandomEncryptedFromAliceAsync, Bob4_1_DecryptAlicesEncryptedRandomAsync,
+                        Bob4_2_GenerateBobsRandomAndCombineWithAlicesRandomAsync, Bob4_3_SendBothRandomsEncryptedToAliceAsync,
+
+                        Bob6_0_GetBobsRandomEncryptedFromAliceAsync, Bob6_1_DecryptBobsRandomFromAliceAsync,
+                        Bob6_2_VerifyBobsRandomAsync,
+
+                        BobX_DoneWithEKEAsync
+                    };
+
+                CurrentActionIndex = 0;
+                WaitForOtherParty = true;
+                IsAsync = isAsync;
             }
+
+            private bool IsAsync;
 
             private void BobX_DoneWithEKE()
             {
-                IsDoneWithEKE = true;
+                IsDoneWithProtocol = true;
             }
 
-            public Action<byte[]> SendMessageToAlice;
-            public SymmetricSupport SessionKeyEnc;
+            public Action<byte[]> SendMessageToOtherParty { get; set;  }
+            public Func<byte[], Task> SendMessageToOtherPartyAsync { get; set; }
+
+            public List<byte[]> NegotiationResults
+            {
+                get
+                {
+                    if (!IsDoneWithProtocol)
+                        return null;
+                    return new List<byte[]>() { SessionKeyEnc.CurrentKey };
+                }
+            }
+
+            private SymmetricSupport SessionKeyEnc;
 
             //public byte[] SharedSecret;
-            public byte[] AlicesEncryptedPublicKey;
-            public RSACryptoServiceProvider AlicesPublicKey;
-            public byte[] EncryptedSessionKey;
-            public byte[] AlicesEncryptedRandom;
-            public byte[] AlicesRandom;
-            public byte[] BobsRandom;
-            public byte[] AlicesRandomWithBobsRandom;
-            public byte[] AlicesRandomWithBobsRandomEncrypted;
-            public byte[] BobsRandomFromAliceEncrypted;
-            public byte[] BobsRandomFromAlice;
-            public byte[] LatestMessageFromAlice;
-            public bool WaitForAlice;
-            public bool IsDoneWithEKE;
+            private byte[] AlicesEncryptedPublicKey;
+            private RSACryptoServiceProvider AlicesPublicKey;
+            private byte[] EncryptedSessionKey;
+            private byte[] AlicesEncryptedRandom;
+            private byte[] AlicesRandom;
+            private byte[] BobsRandom;
+            private byte[] AlicesRandomWithBobsRandom;
+            private byte[] AlicesRandomWithBobsRandomEncrypted;
+            private byte[] BobsRandomFromAliceEncrypted;
+            private byte[] BobsRandomFromAlice;
+
+            private byte[] latestMessageFromOtherParty;
+            public byte[] LatestMessageFromOtherParty
+            {
+                private get { return latestMessageFromOtherParty; }
+                set
+                {
+                    latestMessageFromOtherParty = value;
+                    WaitForOtherParty = false;
+                }
+            }
+
+            public bool WaitForOtherParty { get; private set; }
+            public bool IsDoneWithProtocol { get; private set; }
+            private int CurrentActionIndex;
 
             private void Bob6_2_VerifyBobsRandom()
             {
@@ -307,13 +445,13 @@ namespace SecuritySupport
 
             private void Bob6_0_GetBobsRandomEncryptedFromAlice()
             {
-                BobsRandomFromAliceEncrypted = LatestMessageFromAlice;
+                BobsRandomFromAliceEncrypted = LatestMessageFromOtherParty;
             }
 
             private void Bob4_3_SendBothRandomsEncryptedToAlice()
             {
-                SendMessageToAlice(AlicesRandomWithBobsRandomEncrypted);
-                WaitForAlice = true;
+                SendMessageToOtherParty(AlicesRandomWithBobsRandomEncrypted);
+                WaitForOtherParty = true;
             }
 
             private void Bob4_2_GenerateBobsRandomAndCombineWithAlicesRandom()
@@ -330,13 +468,13 @@ namespace SecuritySupport
 
             private void Bob4_0_GetAlicesRandomEncryptedFromAlice()
             {
-                AlicesEncryptedRandom = LatestMessageFromAlice;
+                AlicesEncryptedRandom = LatestMessageFromOtherParty;
             }
 
             private void Bob2_4_SendEncryptedSessionKeyToAlice()
             {
-                SendMessageToAlice(EncryptedSessionKey);
-                WaitForAlice = true;
+                SendMessageToOtherParty(EncryptedSessionKey);
+                WaitForOtherParty = true;
             }
 
             private void Bob2_3_EncryptSessionKey()
@@ -361,14 +499,112 @@ namespace SecuritySupport
 
             private void Bob2_0_GetAlicesEncryptedPublicKeyFromAlice()
             {
-                AlicesEncryptedPublicKey = LatestMessageFromAlice;
+                AlicesEncryptedPublicKey = LatestMessageFromOtherParty;
             }
 
 
+            public void PerformNextAction()
+            {
+                if(IsAsync)
+                    throw new NotSupportedException("PerformNextAction not supported on Async mode, use PerformNextActionAsync instead");
+                if (IsDoneWithProtocol || WaitForOtherParty)
+                    return;
+                BobsActions[CurrentActionIndex++]();
+            }
+
+
+            #region Async Methods
+
+            public async Task PerformNextActionAsync()
+            {
+                if (!IsAsync)
+                    throw new NotSupportedException("PerformNextActionAsync not supported on non-async mode, use PerformNextAction instead");
+                if (IsDoneWithProtocol || WaitForOtherParty)
+                    return;
+                await BobsActionsAsync[CurrentActionIndex++]();
+            }
+
+
+
+            private async Task BobX_DoneWithEKEAsync()
+            {
+                IsDoneWithProtocol = true;
+            }
+
+            private async Task Bob6_2_VerifyBobsRandomAsync()
+            {
+                if (BobsRandom.SequenceEqual(BobsRandomFromAlice) == false)
+                    throw new SecurityException("EKE negotiation failed");
+            }
+
+            private async Task Bob6_1_DecryptBobsRandomFromAliceAsync()
+            {
+                BobsRandomFromAlice = SessionKeyEnc.DecryptData(BobsRandomFromAliceEncrypted);
+            }
+
+            private async Task Bob6_0_GetBobsRandomEncryptedFromAliceAsync()
+            {
+                BobsRandomFromAliceEncrypted = LatestMessageFromOtherParty;
+            }
+
+            private async Task Bob4_3_SendBothRandomsEncryptedToAliceAsync()
+            {
+                await SendMessageToOtherPartyAsync(AlicesRandomWithBobsRandomEncrypted);
+                WaitForOtherParty = true;
+            }
+
+            private async Task Bob4_2_GenerateBobsRandomAndCombineWithAlicesRandomAsync()
+            {
+                BobsRandom = SymmetricSupport.GetRandomBytes(16);
+                AlicesRandomWithBobsRandom = AlicesRandom.Concat(BobsRandom).ToArray();
+                AlicesRandomWithBobsRandomEncrypted = SessionKeyEnc.EncryptData(AlicesRandomWithBobsRandom);
+            }
+
+            private async Task Bob4_1_DecryptAlicesEncryptedRandomAsync()
+            {
+                AlicesRandom = SessionKeyEnc.DecryptData(AlicesEncryptedRandom);
+            }
+
+            private async Task Bob4_0_GetAlicesRandomEncryptedFromAliceAsync()
+            {
+                AlicesEncryptedRandom = LatestMessageFromOtherParty;
+            }
+
+            private async Task Bob2_4_SendEncryptedSessionKeyToAliceAsync()
+            {
+                await SendMessageToOtherPartyAsync(EncryptedSessionKey);
+                WaitForOtherParty = true;
+            }
+
+            private async Task Bob2_3_EncryptSessionKeyAsync()
+            {
+                byte[] sessionKeyWithIV = SessionKeyEnc.GetKeyWithIV();
+                var result = AlicesPublicKey.Encrypt(sessionKeyWithIV, false);
+                EncryptedSessionKey = result;
+            }
+
+            private async Task Bob2_2_GenerateRandomSessionKeyWithIVAsync()
+            {
+                SessionKeyEnc = new SymmetricSupport();
+                SessionKeyEnc.InitializeNew();
+            }
+
+            private async Task Bob2_1_DecryptAlicesEncryptedPublicKeyAsync()
+            {
+                string alicesPublicKey = EKEContext.SharedSecretEnc.DecryptString(AlicesEncryptedPublicKey);
+                AlicesPublicKey = new RSACryptoServiceProvider();
+                AlicesPublicKey.FromXmlString(alicesPublicKey);
+            }
+
+            private async Task Bob2_0_GetAlicesEncryptedPublicKeyFromAliceAsync()
+            {
+                AlicesEncryptedPublicKey = LatestMessageFromOtherParty;
+            }
+            #endregion
         }
 
 
-        private void InitiateCurrentSymmetricFromSecret(string textvalue)
+        public void InitiateCurrentSymmetricFromSecret(string textvalue)
         {
             SharedSecretEnc = new SymmetricSupport();
             SharedSecretEnc.InitializeFromSharedSecret(textvalue);

@@ -169,3 +169,42 @@ namespace TheBall
         }
     }
 }
+          //  const string SecretFileName = @"C:\work\abs\ConnectionStringStorage\amazonses.txt";
+          //  string configString;
+          //  if (File.Exists(SecretFileName))
+          //      configString = File.ReadAllText(SecretFileName);
+          //  else
+          //      configString = CloudConfigurationManager.GetSetting("AmazonSESAccessInfo");
+          //  string[] strValues = configString.Split(';');
+          //if (strValues.Length >= 2)
+          //{
+          //  AWSAccessKey = strValues[0];
+          //  AWSSecretKey = strValues[1];
+          //}
+          string urlLink = GetUrlLink(emailValidation.ID);
+          QueueSupport.ReportStatistics("Email sent! Link: " + urlLink, TimeSpan.FromDays(1));
+//          string emailMessageFormat =
+//                @"Welcome to The Open Innovation Platform!
+//
+//You have just joined the collaboration platform by Aalto Global Impact. Your email address '{0}' has been registered on the OIP system. Before you start your collaboration we simply need to confirm that you did register your email. Please follow the link below during which you might be redirected to perform the authentication on OIP.
+//
+//Use the following link to complete your registration (the link is valid for 30 minutes after which you need to resend the validation):
+//{1}
+//
+//Wishing you all the best from OIP team!";
+//            string message = string.Format(emailMessageFormat, emailValidation.Email, urlLink);
+//            SendEmail(FromAddress, emailValidation.Email, "Welcome to The Open Innovation Platform!", message);
+          string urlLink = GetUrlLink(emailValidation.ID);
+          QueueSupport.ReportStatistics("Group Email sent! Link: " + urlLink, TimeSpan.FromDays(1));
+          //            string urlLink = GetUrlLink(emailValidation.ID);
+//            string emailMessageFormat =
+//                @"You have been invited to join in the collaboration platform by Aalto Global Impact to collaborate in the group: {0}. 
+//
+//Use the following link to accept the invitation and join the group:
+//{1}
+//
+//The link is valid for 14 days, after which you need to request new invitation.";
+//            string message = String.Format(emailMessageFormat, collaboratingGroup.Title, urlLink);
+//            SendEmail(FromAddress, emailValidation.Email,
+//                      "Invitation to join collaboration group: " + collaboratingGroup.Title, message);
+            string urlLink = "http://theball.gurschlermichael.com/emailvalidation/" + emailValidationID;

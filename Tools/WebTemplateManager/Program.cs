@@ -16,9 +16,14 @@ namespace WebTemplateManager
         {
             try
             {
-                //TheBallEKE.TestExecution();
+                Console.WriteLine("Running test EKE...");
+                TheBallEKE.TestExecution();
+                Console.WriteLine("Running test EKE complete.");
                 //return;
                 //SecurityNegotiationManager.EchoClient().Wait();
+                SecurityNegotiationManager.EchoClient();
+                Console.ReadLine(); // Enter to exit
+                return;
                 //return;
                 if (args.Length != 4 || args[0].Length != 4)
                 {
@@ -69,9 +74,9 @@ namespace WebTemplateManager
                     FileSystemSupport.UploadTemplateContent(allFiles, owner, templateName, true);
                 }
             }
-            catch
+            catch(Exception exception)
             {
-
+                Console.WriteLine("EXCEPTION: " + exception.ToString());
             }
         }
 
