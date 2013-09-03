@@ -24,14 +24,14 @@
                       sourceAbstraction="Operation"
                       targetAbstraction="Documentation"
                       />
-      <Transformation name="OperationToStatusTrackingTRANS"
+      <!--<Transformation name="OperationToStatusTrackingTRANS"
                       sourceAbstraction="Operation"
                       targetAbstraction="StatusTracking"
                       />
       <Transformation name="StatusTrackingToDocumentationTRANS"
                       sourceAbstraction="StatusTracking"
                       targetAbstraction="Documentation"
-                      />
+                      />-->
     </Transformations>
     <BuildExecution>
       <TransformationItem nameRef="TheBallCoreToOperationTRANS" />
@@ -39,7 +39,7 @@
       <AbstractionItem nameRef="TheBallCoreABS"/>
       <TransformationItem nameRef="OperationToDocumentationTRANS" />
       <TransformationItem nameRef="OperationToStatusTrackingTRANS" />
-      <TransformationItem nameRef="StatusTrackingToDocumentationTRANS" />
+      <!--<TransformationItem nameRef="StatusTrackingToDocumentationTRANS" />-->
       <AbstractionItem nameRef="DocumentationABS"/>
     </BuildExecution>
   </Builder>

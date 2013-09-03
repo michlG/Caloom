@@ -46,7 +46,7 @@
     <StatusItem name="UpdateProduct_StoreObjects" displayName="MethodExecuteType: StoreObjects" description="Store modified objects">
       <StatusValue trafficLightIndicator="yellow" indicatorDisplayText="Being implemented" indicatorValue="1" />
     </StatusItem>
-    <StatusItem name="UpdateProduct_UpdatedProductID" displayName="VariableType: UpdatedProductID" description="Product id of created product">
+    <StatusItem name="UpdateProduct_ProductID" displayName="VariableType: ProductID" description="Product id of created product">
       <StatusValue trafficLightIndicator="yellow" indicatorDisplayText="Being implemented" indicatorValue="1" />
     </StatusItem>
     <StatusItem name="SetSubProductUsage_UsingProductID" displayName="VariableType: UsingProductID" description="ID of the product that uses the subproduct">
@@ -109,7 +109,7 @@
       <ItemRef itemName="UpdateProduct_ProductRoot" />
       <ItemRef itemName="UpdateProduct_UpdateProductInfo" />
       <ItemRef itemName="UpdateProduct_StoreObjects" />
-      <ItemRef itemName="UpdateProduct_UpdatedProductID" />
+      <ItemRef itemName="UpdateProduct_ProductID" />
     </Group>
     <Group name="SetSubProductUsage">
       <ItemRef itemName="SetSubProductUsage_UsingProductID" />

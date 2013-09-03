@@ -345,7 +345,7 @@
           <InformationItem name="RecentBlogCollection" informationObjectName="BlogCollection" logicalDataType="InformationObject" />
         </InformationItems>
       </InformationObject>
-      
+
       <InformationObject name="NodeSummaryContainer" designDesc="Node (=tile) container of everything summarized">
         <InformationItems>
           <InformationItem name="Nodes" logicalDataType="InformationObject" informationObjectName="RenderedNodeCollection"/>

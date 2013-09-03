@@ -77,7 +77,7 @@ using System.IO;
 				}
 				public class UpdateProductReturnValue 
 		{
-				public string UpdatedProductID ;
+				public string ProductID ;
 				}
 				public class SetSubProductUsageParameters 
 		{

@@ -387,7 +387,7 @@
                   <Rows>
                     <Row>
                       <ColumnData styleRef="color:blue;font-weight:bold;font-style:italic">
-                        <TextContent>UpdatedProductID</TextContent>
+                        <TextContent>ProductID</TextContent>
                       </ColumnData>
                       <ColumnData styleRef="color:blue;font-weight:bold;font-style:italic">
                         <TextContent>string</TextContent>

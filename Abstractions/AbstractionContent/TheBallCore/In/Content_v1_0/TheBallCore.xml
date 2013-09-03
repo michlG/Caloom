@@ -220,7 +220,7 @@
       </InformationObject>
     </InformationModel>
     <Operations>
-<!--
+      <!--
       <Operation name="CreateInvoiceForGroup">
         <OperationSpec>
           <Description>Create invoice for group</Description>

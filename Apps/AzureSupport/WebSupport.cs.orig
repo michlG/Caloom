@@ -1,0 +1,32 @@
+﻿using System.Web;
+using TheBall;
+
+namespace AzureSupport
+{
+    public static class WebSupport
+    {
+        public static string GetLoginUrl(HttpContext context)
+        {
+            return context.User.Identity.Name;
+        }
+
+        static string GetContainerName(HttpRequest request)
+        {
+            string hostName = request.Url.DnsSafeHost;
+<<<<<<< HEAD
+            if (hostName == "localhost")
+                hostName = "theball.gurschlermichael.com";
+=======
+            if (hostName == "localhost" || hostName == "theball.protonit.net")
+                hostName = "demooip.aaltoglobalimpact.org";
+>>>>>>> 0925ec66d1d8a32e6abc90d52cdab5676b439972
+            return hostName.Replace('.', '-').ToLower();
+        }
+
+        public static void InitializeContextStorage(HttpRequest request)
+        {
+            string containerName = GetContainerName(request);
+            InformationContext.Current.InitializeCloudStorageAccess(containerName);
+        }
+    }
+}

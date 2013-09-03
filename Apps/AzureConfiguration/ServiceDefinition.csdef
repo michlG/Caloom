@@ -19,6 +19,8 @@
     <LocalResources>
       <LocalStorage name="ConfigFiles" cleanOnRoleRecycle="true" sizeInMB="10" />
     </LocalResources>
+    <Certificates>
+    </Certificates>
   </WorkerRole>
   <WebRole name="TheBallWebFarm" vmsize="Small">
     <Runtime executionContext="elevated" />
