@@ -57,12 +57,19 @@
     <Compile Include="..\..\Abstractions\AbstractionContent\Operation\Out\OperationAbstractionFromTheBallCore.designer.cs">
       <Link>Abstractions\OperationAbstractionFromTheBallCore.designer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Abstractions\AbstractionContent\Operation\Out\OperationAbstractionFromTitan.designer.cs">
+      <Link>Abstractions\OperationAbstractionFromTitan.designer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Abstractions\AbstractionContent\TheBallCore\Out\OIPBallInstance.designer.cs">
       <Link>Abstractions\OIPBallInstance.designer.cs</Link>
     </Compile>
     <Compile Include="..\..\Abstractions\AbstractionContent\TheBallCore\Out\TheBallCore.designer.cs">
       <Link>Abstractions\TheBallCore.designer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Abstractions\AbstractionContent\TheBallCore\Out\Titan.designer.cs">
+      <Link>Abstractions\Titan.designer.cs</Link>
+    </Compile>
+    <Compile Include="Operation\SetFavouriteStatusOfStockCompanyImplementation.cs" />
     <Compile Include="TheBall.CORE\CreateAndSendEmailValidationForDeviceJoinConfirmationImplementation.cs" />
     <Compile Include="TheBall.CORE\DeleteDeviceMembershipImplementation.cs" />
     <Compile Include="TheBall.CORE\SetDeviceMembershipValidationAndActiveStatusImplementation.cs" />

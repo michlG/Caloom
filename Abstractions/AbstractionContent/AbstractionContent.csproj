@@ -48,29 +48,26 @@
       <Link>TheBallCore\TheBallCore.xml</Link>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="ClassModel\In\ClassModelFromCaloomStdUI.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="ObjectRelational\In\Content_v1_0\CaloomDatabase_v1_0.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <None Include="ServiceLayer\Out\ServiceClient_CSharp_v1_0.designer.cs" />
-    <None Include="ServiceLayer\Out\ServiceContract_CSharp_v1_0.designer.cs" />
-    <None Include="ServiceLayer\Out\ServiceServer_CSharp_v1_0.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="ServiceLayer\In\Content_v1_0\CaloomServiceLayer.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\Apps\WorkerTemplate\CaloomUI\caloomxml\Titan.xml">
+      <Link>TheBallCore\Titan.xml</Link>
+    </Content>
     <Content Include="absbuilder\In\Content_v1_0\AbstractionBuilderContent_v1_0.xml">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClassModel\In\" />
     <Folder Include="ClassModel\Out\" />
     <Folder Include="Documentation\In\" />
     <Folder Include="Documentation\Out\" />
+    <Folder Include="ObjectRelational\In\Content_v1_0\" />
     <Folder Include="Operation\In\" />
     <Folder Include="Operation\Out\" />
+    <Folder Include="ServiceLayer\In\Content_v1_0\" />
+    <Folder Include="ServiceLayer\Out\" />
     <Folder Include="StatusTracking\In\" />
     <Folder Include="StatusTracking\Out\" />
     <Folder Include="TheBallCore\In\Content_v1_0\" />

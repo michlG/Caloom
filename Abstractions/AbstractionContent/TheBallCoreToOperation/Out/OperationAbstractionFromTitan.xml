@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<OperationAbstraction xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.org/Operation_v1_0.xsd">
+  <Operations codeNamespace="Titan">
+    <Operation name="SetFavouriteStatusOfStockCompany">
+      <OperationSpec>
+        <Description>Sets the favourite status of the given stock company</Description>
+      </OperationSpec>
+      <Parameters>
+        <Parameter name="StockSymbol" dataType="string" designDesc="The symbol name of the stock company" state="designApproved" />
+        <Parameter name="IsFavourite" dataType="bool" designDesc="The is favourite status of the stock company" state="designApproved" />
+      </Parameters>
+      <Execution>
+        <SequentialExecution>
+          <TargetDefinition name="StockCompany" dataType="StockCompany" designDesc="The stock company with the given symbol" state="designApproved">
+            <Parameter name="StockSymbol" />
+          </TargetDefinition>
+          <MethodExecute name="SetFavouriteStatus" designDesc="Sets the is favourite status of then given stock company" state="designApproved">
+            <Parameter name="IsFavourite" />
+            <Target name="StockCompany" />
+          </MethodExecute>
+          <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
+            <Target name="StockCompany" />
+          </MethodExecute>
+        </SequentialExecution>
+      </Execution>
+    </Operation>
+  </Operations>
+</OperationAbstraction>

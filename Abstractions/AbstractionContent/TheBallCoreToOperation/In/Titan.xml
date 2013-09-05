@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<TheBallCoreAbstraction xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../TheBallCoreABS/TheBallCore/Content_v1_0/TheBallCore_v1_0.xsd">
+-->
+<TheBallCoreAbstraction xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="TheBallCore_v1_0.xsd">
+  <InstanceOfTheBall semanticDomainName="Titan">
+    <InformationModel>
+      <InformationObject name="StockCompany" designDesc="Represents a single stock company">
+        <InformationItems>
+          <InformationItem name="Symbol" logicalDataType="Text_Short"/>
+          <InformationItem name="Name" logicalDataType="Text_Short"/>
+          <InformationItem name="PriceActual" logicalDataType="Number_ExactDecimal" />
+          <InformationItem name="Change" logicalDataType="Number_ExactDecimal"/>
+          <InformationItem name="ChangePercent" logicalDataType="Number_ExactDecimal"/>
+          <InformationItem name="Volume" logicalDataType="Number_Integer" />
+          <InformationItem name="ChangeYTD" logicalDataType="Number_ExactDecimal"/>
+          <InformationItem name="ChangePercentYTD" logicalDataType="Number_ExactDecimal"/>
+          <InformationItem name="PriceHigh" logicalDataType="Number_ExactDecimal"/>
+          <InformationItem name="PriceLow" logicalDataType="Number_ExactDecimal"/>
+          <InformationItem name="PriceOpen" logicalDataType="Number_ExactDecimal"/>
+          <InformationItem name="IsFavourite" logicalDataType="TrueOrFalse_Boolean"/>
+        </InformationItems>
+      </InformationObject>
+      <InformationObject name="StockCompanyCollection" designDesc="Collection of stock companies">
+        <CollectionFor contentInformationObjectName="StockCompany" collectionType="Independent" />
+      </InformationObject>
+      <InformationObject name="ChartPoint" designDesc="Represents a single point which can be represented in a chart">
+        <InformationItems>
+          <InformationItem name="Timestamp" logicalDataType="Text_Short"/>
+          <InformationItem name="Value" logicalDataType="Number_ApproxDecimal"/>
+        </InformationItems>
+      </InformationObject>
+      <InformationObject name="ChartPointCollection" designDesc="Collection of chart points">
+        <CollectionFor contentInformationObjectName="ChartPoint" collectionType="Independent" />
+      </InformationObject>
+    </InformationModel>
+    <Operations>
+      <Operation name="SetFavouriteStatusOfStockCompany">
+        <OperationSpec>
+          <Description>Sets the favourite status of the given stock company</Description>
+        </OperationSpec>
+        <Parameters>
+          <Parameter name="StockSymbol" dataType="string" designDesc="The symbol name of the stock company" state="designApproved"/>
+          <Parameter name="IsFavourite" dataType="bool" designDesc="The is favourite status of the stock company" state="designApproved"/>
+        </Parameters>
+        <Execution>
+          <SequentialExecution>
+            <TargetDefinition dataType="StockCompany" name="StockCompany" designDesc="The stock company with the given symbol" state="designApproved">
+              <Parameter name="StockSymbol"/>
+            </TargetDefinition>
+            <MethodExecute name="SetFavouriteStatus" designDesc="Sets the is favourite status of then given stock company" state="designApproved">
+              <Target name="StockCompany"/>
+              <Parameter name="IsFavourite"/>
+            </MethodExecute>
+            <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
+              <Target name="StockCompany"/>
+            </MethodExecute>
+          </SequentialExecution>
+        </Execution>
+      </Operation>
+    </Operations>
+    <Subscriptions>
+      <Subscription triggeredOperationName="UpdatePageContent">
+        <TriggeringInformationItem itemName="BuiltForAnybodyTitle" objectName="AboutAGIApplications" />
+        <OperationParameter name="changedInformation" informationItemSource="TriggeringObject" informationObjectName="AboutAGIApplications" informationItemName="BuiltForAnybodyTitle" />
+      </Subscription>
+    </Subscriptions>
+    <Monitoring>
+      <Monitor monitoringOperationName="UpdatePageContent">
+        <MonitoredInformationItem objectName="AboutAGIApplications" itemName="ForAllPeopleTitle" />
+        <MonitoringFrequency utcTimeStampToStart="2012-08-13T14:00:00.123456789+02:00">
+          <RegularMonitoringCycle frequencyUnit="Minute" monitorEveryXthOfUnit="15" />
+        </MonitoringFrequency>
+        <OperationParameter name="changedInformation" informationItemSource="TriggeringObject" informationObjectName="AboutAGIApplications" informationItemName="ForAllPeopleTitle" />
+      </Monitor>
+    </Monitoring>
+  </InstanceOfTheBall>
+</TheBallCoreAbstraction>

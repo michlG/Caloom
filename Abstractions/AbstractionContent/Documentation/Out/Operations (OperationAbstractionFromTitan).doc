@@ -226,51 +226,63 @@ div.WordSection1
 
 		
 		<div style='border:none;border-bottom:solid #4F81BD 1.0pt;padding:0cm 0cm 4.0pt 0cm'>
-<p class="MsoTitle">Status Tracking Document (Caloom.Housing)</p>
+<p class="MsoTitle">Operations (OperationAbstractionFromTitan)</p>
 </div>
-		<h1>Summary</h1>
-		<h2>CreateHouse (0 %)</h2>
+		<h1>SetFavouriteStatusOfStockCompany (StockSymbol, IsFavourite)</h1>
+		<h2>Specifications</h2>
 		<p>		<div class="MsoNormal" >
-		Being implemented 2
+		Sets the favourite status of the given stock company
 		</div>
-		</p><h1>CreateHouse (0 %)</h1>
+		</p><h2>Parameters</h2>
 		<p><table border="1">
-				<tr><th><div class=MsoNormal>Item</div></th><th><div class=MsoNormal>Status</div></th><th><div class=MsoNormal>Description</div></th></tr>
+				<tr><th><div class=MsoNormal>Parameter</div></th><th><div class=MsoNormal>DataType</div></th><th><div class=MsoNormal>Description</div></th></tr>
 				<tr>
 				<td>
 				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		TargetDefinitionType: HouseRoot
+		StockSymbol
 		</div>
 				</td>
 				<td>
 				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		Being implemented
+		string
 		</div>
 				</td>
 				<td>
 				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		Created house
+		The symbol name of the stock company
 		</div>
 				</td>
 				</tr>
 				<tr>
 				<td>
 				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		MethodExecuteType: StoreObjects
+		IsFavourite
 		</div>
 				</td>
 				<td>
 				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		Being implemented
+		bool
 		</div>
 				</td>
 				<td>
 				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		Store modified objects
+		The is favourite status of the stock company
 		</div>
 				</td>
 				</tr>
 		</table>
+		</p><h2>Target Definition: StockCompany ( StockSymbol )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The stock company with the given symbol
+		</div>
+		</p><h2>Method Call: SetFavouriteStatus ( StockCompany, IsFavourite )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Sets the is favourite status of then given stock company
+		</div>
+		</p><h2>Method Call: StoreObjects ( StockCompany )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Store modified objects
+		</div>
 		</p></div>
 
 </body>
