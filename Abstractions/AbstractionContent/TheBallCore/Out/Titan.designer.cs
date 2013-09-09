@@ -298,7 +298,7 @@ using TheBall.CORE;
 					var result = new StockCompany();
 					result.Symbol = @"StockCompany.Symbol";
 
-					result.Name = @"StockCompany.Name";
+					result.CompanyName = @"StockCompany.CompanyName";
 
 				
 					return result;
@@ -361,7 +361,7 @@ using TheBall.CORE;
 					get {
 						if(Symbol != _unmodified_Symbol)
 							return true;
-						if(Name != _unmodified_Name)
+						if(CompanyName != _unmodified_CompanyName)
 							return true;
 						if(PriceActual != _unmodified_PriceActual)
 							return true;
@@ -396,7 +396,7 @@ using TheBall.CORE;
 				private void CopyContentFrom(StockCompany sourceObject)
 				{
 					Symbol = sourceObject.Symbol;
-					Name = sourceObject.Name;
+					CompanyName = sourceObject.CompanyName;
 					PriceActual = sourceObject.PriceActual;
 					Change = sourceObject.Change;
 					ChangePercent = sourceObject.ChangePercent;
@@ -414,7 +414,7 @@ using TheBall.CORE;
 				void IInformationObject.SetInstanceTreeValuesAsUnmodified()
 				{
 					_unmodified_Symbol = Symbol;
-					_unmodified_Name = Name;
+					_unmodified_CompanyName = CompanyName;
 					_unmodified_PriceActual = PriceActual;
 					_unmodified_Change = Change;
 					_unmodified_ChangePercent = ChangePercent;
@@ -439,8 +439,8 @@ using TheBall.CORE;
 						case "Symbol":
 							Symbol = value;
 							break;
-						case "Name":
-							Name = value;
+						case "CompanyName":
+							CompanyName = value;
 							break;
 						case "PriceActual":
 							PriceActual = double.Parse(value);
@@ -480,8 +480,8 @@ using TheBall.CORE;
 			public string Symbol { get; set; }
 			private string _unmodified_Symbol;
 			[DataMember]
-			public string Name { get; set; }
-			private string _unmodified_Name;
+			public string CompanyName { get; set; }
+			private string _unmodified_CompanyName;
 			[DataMember]
 			public double PriceActual { get; set; }
 			private double _unmodified_PriceActual;

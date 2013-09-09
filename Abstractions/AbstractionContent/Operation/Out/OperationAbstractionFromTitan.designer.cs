@@ -26,4 +26,4 @@ using System.IO;
 				SetFavouriteStatusOfStockCompanyImplementation.ExecuteMethod_StoreObjects(StockCompany);		
 				}
 				}
-		} 
+		 } 

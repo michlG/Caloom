@@ -11,7 +11,7 @@ namespace Titan
     public static StockCompany GetTarget_StockCompany(string stockSymbol)
     {
       var stockCompanies = StockCompanyCollection.RetrieveCollectionFromOwnerContent(InformationContext.Current.Owner);
-      return stockCompanies.FirstOrDefault(x => x.)
+      //return stockCompanies.FirstOrDefault(x => x.)
     }
 
     public static void ExecuteMethod_SetFavouriteStatus(bool isFavourite, StockCompany stockCompany)

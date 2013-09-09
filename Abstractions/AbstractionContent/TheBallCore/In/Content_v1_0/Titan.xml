@@ -8,7 +8,7 @@
       <InformationObject name="StockCompany" designDesc="Represents a single stock company">
         <InformationItems>
           <InformationItem name="Symbol" logicalDataType="Text_Short"/>
-          <InformationItem name="Name" logicalDataType="Text_Short"/>
+          <InformationItem name="CompanyName" logicalDataType="Text_Short"/>
           <InformationItem name="PriceActual" logicalDataType="Number_ExactDecimal" />
           <InformationItem name="Change" logicalDataType="Number_ExactDecimal"/>
           <InformationItem name="ChangePercent" logicalDataType="Number_ExactDecimal"/>
