@@ -6,6 +6,7 @@ using System.Security;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Security;
+using System.Web.Services.Description;
 using AaltoGlobalImpact.OIP;
 using AzureSupport;
 using DotNetOpenAuth.OpenId.RelyingParty;
@@ -13,6 +14,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using TheBall;
 using TheBall.CORE;
+using Titan;
 
 namespace WebInterface
 {
@@ -195,6 +197,7 @@ namespace WebInterface
 
         private void HandleOwnerPostRequest(IContainerOwner containerOwner, HttpContext context, string contentPath)
         {
+          InformationContext.Current.Owner = containerOwner;
             HttpRequest request = context.Request;
             var form = request.Unvalidated().Form;
 
@@ -390,7 +393,7 @@ namespace WebInterface
             response.ContentType = contentType;
             string prefixStrippedContent = contentPath; //.Substring(AuthGroupPrefixLen + GuidIDLen + 1);
             string LocalWebRootFolder = @"C:\Users\Michael\WebstormProjects\OIPTemplates\UI\groupmanagement\";
-            string LocalWwwSiteFolder = @"C:\Users\kalle\WebstormProjects\CustomerWww\EarthhouseWww\UI\earthhouse\";
+            string LocalWwwSiteFolder = @"C:\Users\Michael\WebstormProjects\TitanWeb\UI\TitanWeb\";
             string fileName;
             if (prefixStrippedContent.Contains("oipcms/"))
                 fileName = prefixStrippedContent.Replace("oipcms/", LocalWebRootFolder);

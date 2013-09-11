@@ -228,7 +228,273 @@ div.WordSection1
 		<div style='border:none;border-bottom:solid #4F81BD 1.0pt;padding:0cm 0cm 4.0pt 0cm'>
 <p class="MsoTitle">Operations (OperationAbstractionFromTitan)</p>
 </div>
-		<h1>SetFavouriteStatusOfStockCompany (StockSymbol, IsFavourite)</h1>
+		<h1>AddOrUpdatePortfolio (Id, Name)</h1>
+		<h2>Specifications</h2>
+		<p>		<div class="MsoNormal" >
+		Adds or updates the portfolio
+		</div>
+		</p><h2>Parameters</h2>
+		<p><table border="1">
+				<tr><th><div class=MsoNormal>Parameter</div></th><th><div class=MsoNormal>DataType</div></th><th><div class=MsoNormal>Description</div></th></tr>
+				<tr>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Id
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		string
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The id of the portfolio
+		</div>
+				</td>
+				</tr>
+				<tr>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Name
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		string
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The name of the portfolio
+		</div>
+				</td>
+				</tr>
+		</table>
+		</p><h2>Target Definition: Portfolio ( Id )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The portfolio with the given id
+		</div>
+		</p><h2>Method Call: SetNameOfPortfolio ( Portfolio, Name )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Sets the name of the given portfolio
+		</div>
+		</p><h2>Method Call: StoreObjects ( Portfolio )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Store modified objects
+		</div>
+		</p><h1>AddStockCompanyToPortfolio (PortfolioId, StockCompanyId)</h1>
+		<h2>Specifications</h2>
+		<p>		<div class="MsoNormal" >
+		Adds the given stock company to the portfolio
+		</div>
+		</p><h2>Parameters</h2>
+		<p><table border="1">
+				<tr><th><div class=MsoNormal>Parameter</div></th><th><div class=MsoNormal>DataType</div></th><th><div class=MsoNormal>Description</div></th></tr>
+				<tr>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		PortfolioId
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		string
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The id of the portfolio
+		</div>
+				</td>
+				</tr>
+				<tr>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		StockCompanyId
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		string
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The id of the stock company
+		</div>
+				</td>
+				</tr>
+		</table>
+		</p><h2>Target Definition: Portfolio ( PortfolioId )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The portfolio to which the stock company should be added
+		</div>
+		</p><h2>Target Definition: StockCompany ( StockCompanyId )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The stockcompany which should be added
+		</div>
+		</p><h2>Method Call: AddStockCompanyToPortfolio ( Portfolio, StockCompany )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Adds the stock company to the portfolio
+		</div>
+		</p><h2>Method Call: StoreObjects ( Portfolio )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Store modified objects
+		</div>
+		</p><h1>RemovePortfolio (Id)</h1>
+		<h2>Specifications</h2>
+		<p>		<div class="MsoNormal" >
+		Removes the given portfolio
+		</div>
+		</p><h2>Parameters</h2>
+		<p><table border="1">
+				<tr><th><div class=MsoNormal>Parameter</div></th><th><div class=MsoNormal>DataType</div></th><th><div class=MsoNormal>Description</div></th></tr>
+				<tr>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Id
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		string
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The id of the portfolio
+		</div>
+				</td>
+				</tr>
+		</table>
+		</p><h2>Target Definition: Portfolio ( Id )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The portfolio which should be removed
+		</div>
+		</p><h2>Method Call: RemovePortfolio ( Portfolio )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Removes the portfolio
+		</div>
+		</p><h2>Method Call: StoreObjects ( Portfolio )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Store modified objects
+		</div>
+		</p><h1>RemoveStockCompanyToPortfolio (PortfolioId, StockCompanyId)</h1>
+		<h2>Specifications</h2>
+		<p>		<div class="MsoNormal" >
+		Removes the given stock company from the portfolio
+		</div>
+		</p><h2>Parameters</h2>
+		<p><table border="1">
+				<tr><th><div class=MsoNormal>Parameter</div></th><th><div class=MsoNormal>DataType</div></th><th><div class=MsoNormal>Description</div></th></tr>
+				<tr>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		PortfolioId
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		string
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The id of the portfolio
+		</div>
+				</td>
+				</tr>
+				<tr>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		StockCompanyId
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		string
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The id of the stock company
+		</div>
+				</td>
+				</tr>
+		</table>
+		</p><h2>Target Definition: Portfolio ( PortfolioId )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The portfolio from which the stock company should be removed
+		</div>
+		</p><h2>Target Definition: StockCompany ( StockCompanyId )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The stockcompany which should be removed
+		</div>
+		</p><h2>Method Call: RemoveStockCompanyToPortfolio ( Portfolio, StockCompany )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Removes the stock company from the portfolio
+		</div>
+		</p><h2>Method Call: StoreObjects ( Portfolio )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Store modified objects
+		</div>
+		</p><h1>SetAlarmPriceOfStockCompany (Id, AlarmPrice)</h1>
+		<h2>Specifications</h2>
+		<p>		<div class="MsoNormal" >
+		Sets the alarm price of the given stock company
+		</div>
+		</p><h2>Parameters</h2>
+		<p><table border="1">
+				<tr><th><div class=MsoNormal>Parameter</div></th><th><div class=MsoNormal>DataType</div></th><th><div class=MsoNormal>Description</div></th></tr>
+				<tr>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Id
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		string
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The id of the stock company
+		</div>
+				</td>
+				</tr>
+				<tr>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		AlarmPrice
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		double
+		</div>
+				</td>
+				<td>
+				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The is the alarm price of the stock company
+		</div>
+				</td>
+				</tr>
+		</table>
+		</p><h2>Target Definition: StockCompany ( Id )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		The stock company with the given symbol
+		</div>
+		</p><h2>Method Call: SetAlarmPrice ( StockCompany, AlarmPrice )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Sets the alarm price of then given stock company
+		</div>
+		</p><h2>Method Call: StoreObjects ( StockCompany )</h2>
+		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
+		Store modified objects
+		</div>
+		</p><h1>SetFavouriteStatusOfStockCompany (Id, IsFavourite)</h1>
 		<h2>Specifications</h2>
 		<p>		<div class="MsoNormal" >
 		Sets the favourite status of the given stock company
@@ -239,7 +505,7 @@ div.WordSection1
 				<tr>
 				<td>
 				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		StockSymbol
+		Id
 		</div>
 				</td>
 				<td>
@@ -249,7 +515,7 @@ div.WordSection1
 				</td>
 				<td>
 				<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		The symbol name of the stock company
+		The id of the stock company
 		</div>
 				</td>
 				</tr>
@@ -271,7 +537,7 @@ div.WordSection1
 				</td>
 				</tr>
 		</table>
-		</p><h2>Target Definition: StockCompany ( StockSymbol )</h2>
+		</p><h2>Target Definition: StockCompany ( Id )</h2>
 		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
 		The stock company with the given symbol
 		</div>

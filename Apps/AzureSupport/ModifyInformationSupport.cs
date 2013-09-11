@@ -6,6 +6,7 @@ using System.Security;
 using System.Web;
 using TheBall.CORE;
 using AaltoGlobalImpact.OIP;
+using Titan;
 
 namespace TheBall
 {
@@ -111,7 +112,55 @@ namespace TheBall
                         DeleteSpecifiedInformationObject.Execute(parameters);
                         break;
                     }
-                default:
+              case "SetIsFavouriteStatus":
+              {
+                bool isFavourite;
+                bool.TryParse(form["IsFavourite"], out isFavourite);
+                SetFavouriteStatusOfStockCompany.Execute(new SetFavouriteStatusOfStockCompanyParameters
+                {
+                  Id=form["Id"],
+                  IsFavourite = isFavourite
+                });
+                break;
+              }
+              case "SetAlarmPrice":
+              {
+                double alarmPrice;
+                double.TryParse(form["AlarmPrice"], out alarmPrice);
+                SetAlarmPriceOfStockCompany.Execute(new SetAlarmPriceOfStockCompanyParameters
+                {
+                  Id = form["Id"],
+                  AlarmPrice = alarmPrice
+                });
+                break;
+              }
+              case "AddOrUpdatePortfolio":
+              {
+                AddOrUpdatePortfolio.Execute(new AddOrUpdatePortfolioParameters
+                {
+                  Id=form["Id"],
+                  Name=form["Name"]
+                });
+                break;
+              }
+              case "DeletePortfolio":
+              {
+                RemovePortfolio.Execute(new RemovePortfolioParameters
+                {
+                  Id=form["Id"]
+                });
+                break;
+              }
+              case "AddStockCompanyToPortfolio":
+              {
+                AddStockCompanyToPortfolio.Execute(new AddStockCompanyToPortfolioParameters
+                {
+                  PortfolioId = form["Id"],
+                  StockCompanyId = form["StockCompanyId"]
+                });
+                break;
+              }
+              default:
                     throw new NotSupportedException("Operation not (yet) supported: " + operationName);
             }
         }

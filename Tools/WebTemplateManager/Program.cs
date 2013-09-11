@@ -16,21 +16,21 @@ namespace WebTemplateManager
         {
             try
             {
-                Console.WriteLine("Running test EKE...");
-                TheBallEKE.TestExecution();
-                Console.WriteLine("Running test EKE complete.");
+                //Console.WriteLine("Running test EKE...");
+                //TheBallEKE.TestExecution();
+                //Console.WriteLine("Running test EKE complete.");
+                ////return;
+                ////SecurityNegotiationManager.EchoClient().Wait();
+                //SecurityNegotiationManager.EchoClient();
+                //Console.ReadLine(); // Enter to exit
                 //return;
-                //SecurityNegotiationManager.EchoClient().Wait();
-                SecurityNegotiationManager.EchoClient();
-                Console.ReadLine(); // Enter to exit
-                return;
                 //return;
                 if (args.Length != 4 || args[0].Length != 4)
                 {
                     Console.WriteLine("Usage: WebTemplateManager.exe <-pub name/-pri name> grp<groupID>/acc<acctID> <connection string>");
                     return;
                 }
-                Debugger.Launch();
+                //Debugger.Launch();
                 string pubPriPrefixWithDash = args[0];
                 string templateName = args[1];
                 if(String.IsNullOrWhiteSpace(templateName))
@@ -78,6 +78,7 @@ namespace WebTemplateManager
             {
                 Console.WriteLine("EXCEPTION: " + exception.ToString());
             }
+          Console.WriteLine("DONE");
         }
 
         private static void Preprocessor(BlobStorageContent content)

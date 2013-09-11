@@ -11,6 +11,7 @@ using AaltoGlobalImpact.OIP;
 using Microsoft.WindowsAzure.StorageClient;
 using TheBall;
 using TheBall.CORE;
+using Titan;
 
 namespace TheBallTool
 {
@@ -25,8 +26,7 @@ namespace TheBallTool
                 //connStr = "UseDevelopmentStorage=true";
                 bool debugMode = false;
 
-
-                StorageSupport.InitializeWithConnectionString(connStr, debugMode);
+              StorageSupport.InitializeWithConnectionString(connStr, debugMode);
                 InformationContext.InitializeFunctionality(3, true);
                 InformationContext.Current.InitializeCloudStorageAccess(Properties.Settings.Default.CurrentActiveContainerName);
 

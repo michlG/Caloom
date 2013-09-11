@@ -1,0 +1,1 @@
+..\TheBallOnAzure\TheBallOnAzure\Tools\TheBallTool\bin\Debug\TheBallTool.exe Apps\UI\HTML\account UseDevelopmentStorage=true

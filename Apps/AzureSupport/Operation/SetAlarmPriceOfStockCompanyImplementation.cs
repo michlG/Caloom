@@ -6,16 +6,16 @@ using TheBall;
 
 namespace Titan
 {
-  public class SetFavouriteStatusOfStockCompanyImplementation
+  public class SetAlarmPriceOfStockCompanyImplementation
   {
     public static StockCompany GetTarget_StockCompany(string id)
     {
       return StockCompany.RetrieveFromOwnerContent(InformationContext.Current.Owner, id);
     }
 
-    public static void ExecuteMethod_SetFavouriteStatus(bool isFavourite, StockCompany stockCompany)
+    public static void ExecuteMethod_SetAlarmPrice(double alarmPrice, StockCompany stockCompany)
     {
-      stockCompany.IsFavourite = isFavourite;
+      stockCompany.PriceAlarm =alarmPrice;
     }
 
     public static void ExecuteMethod_StoreObjects(StockCompany stockCompany)

@@ -6,13 +6,13 @@
         <Description>Sets the favourite status of the given stock company</Description>
       </OperationSpec>
       <Parameters>
-        <Parameter name="StockSymbol" dataType="string" designDesc="The symbol name of the stock company" state="designApproved" />
+        <Parameter name="Id" dataType="string" designDesc="The id of the stock company" state="designApproved" />
         <Parameter name="IsFavourite" dataType="bool" designDesc="The is favourite status of the stock company" state="designApproved" />
       </Parameters>
       <Execution>
         <SequentialExecution>
           <TargetDefinition name="StockCompany" dataType="StockCompany" designDesc="The stock company with the given symbol" state="designApproved">
-            <Parameter name="StockSymbol" />
+            <Parameter name="Id" />
           </TargetDefinition>
           <MethodExecute name="SetFavouriteStatus" designDesc="Sets the is favourite status of then given stock company" state="designApproved">
             <Parameter name="IsFavourite" />
@@ -20,6 +20,125 @@
           </MethodExecute>
           <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
             <Target name="StockCompany" />
+          </MethodExecute>
+        </SequentialExecution>
+      </Execution>
+    </Operation>
+    <Operation name="SetAlarmPriceOfStockCompany">
+      <OperationSpec>
+        <Description>Sets the alarm price of the given stock company</Description>
+      </OperationSpec>
+      <Parameters>
+        <Parameter name="Id" dataType="string" designDesc="The id of the stock company" state="designApproved" />
+        <Parameter name="AlarmPrice" dataType="double" designDesc="The is the alarm price of the stock company" state="designApproved" />
+      </Parameters>
+      <Execution>
+        <SequentialExecution>
+          <TargetDefinition name="StockCompany" dataType="StockCompany" designDesc="The stock company with the given symbol" state="designApproved">
+            <Parameter name="Id" />
+          </TargetDefinition>
+          <MethodExecute name="SetAlarmPrice" designDesc="Sets the alarm price of then given stock company" state="designApproved">
+            <Parameter name="AlarmPrice" />
+            <Target name="StockCompany" />
+          </MethodExecute>
+          <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
+            <Target name="StockCompany" />
+          </MethodExecute>
+        </SequentialExecution>
+      </Execution>
+    </Operation>
+    <Operation name="AddOrUpdatePortfolio">
+      <OperationSpec>
+        <Description>Adds or updates the portfolio</Description>
+      </OperationSpec>
+      <Parameters>
+        <Parameter name="Id" dataType="string" designDesc="The id of the portfolio" state="designApproved" />
+        <Parameter name="Name" dataType="string" designDesc="The name of the portfolio" state="designApproved" />
+      </Parameters>
+      <Execution>
+        <SequentialExecution>
+          <TargetDefinition name="Portfolio" dataType="Portfolio" designDesc="The portfolio with the given id" state="designApproved">
+            <Parameter name="Id" />
+          </TargetDefinition>
+          <MethodExecute name="SetNameOfPortfolio" designDesc="Sets the name of the given portfolio" state="designApproved">
+            <Parameter name="Name" />
+            <Target name="Portfolio" />
+          </MethodExecute>
+          <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
+            <Target name="Portfolio" />
+          </MethodExecute>
+        </SequentialExecution>
+      </Execution>
+    </Operation>
+    <Operation name="RemovePortfolio">
+      <OperationSpec>
+        <Description>Removes the given portfolio</Description>
+      </OperationSpec>
+      <Parameters>
+        <Parameter name="Id" dataType="string" designDesc="The id of the portfolio" state="designApproved" />
+      </Parameters>
+      <Execution>
+        <SequentialExecution>
+          <TargetDefinition name="Portfolio" dataType="Portfolio" designDesc="The portfolio which should be removed" state="designApproved">
+            <Parameter name="Id" />
+          </TargetDefinition>
+          <MethodExecute name="RemovePortfolio" designDesc="Removes the portfolio" state="designApproved">
+            <Target name="Portfolio" />
+          </MethodExecute>
+          <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
+            <Target name="Portfolio" />
+          </MethodExecute>
+        </SequentialExecution>
+      </Execution>
+    </Operation>
+    <Operation name="AddStockCompanyToPortfolio">
+      <OperationSpec>
+        <Description>Adds the given stock company to the portfolio</Description>
+      </OperationSpec>
+      <Parameters>
+        <Parameter name="PortfolioId" dataType="string" designDesc="The id of the portfolio" state="designApproved" />
+        <Parameter name="StockCompanyId" dataType="string" designDesc="The id of the stock company" state="designApproved" />
+      </Parameters>
+      <Execution>
+        <SequentialExecution>
+          <TargetDefinition name="Portfolio" dataType="Portfolio" designDesc="The portfolio to which the stock company should be added" state="designApproved">
+            <Parameter name="PortfolioId" />
+          </TargetDefinition>
+          <TargetDefinition name="StockCompany" dataType="StockCompany" designDesc="The stockcompany which should be added" state="designApproved">
+            <Parameter name="StockCompanyId" />
+          </TargetDefinition>
+          <MethodExecute name="AddStockCompanyToPortfolio" designDesc="Adds the stock company to the portfolio" state="designApproved">
+            <Target name="Portfolio" />
+            <Target name="StockCompany" />
+          </MethodExecute>
+          <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
+            <Target name="Portfolio" />
+          </MethodExecute>
+        </SequentialExecution>
+      </Execution>
+    </Operation>
+    <Operation name="RemoveStockCompanyToPortfolio">
+      <OperationSpec>
+        <Description>Removes the given stock company from the portfolio</Description>
+      </OperationSpec>
+      <Parameters>
+        <Parameter name="PortfolioId" dataType="string" designDesc="The id of the portfolio" state="designApproved" />
+        <Parameter name="StockCompanyId" dataType="string" designDesc="The id of the stock company" state="designApproved" />
+      </Parameters>
+      <Execution>
+        <SequentialExecution>
+          <TargetDefinition name="Portfolio" dataType="Portfolio" designDesc="The portfolio from which the stock company should be removed" state="designApproved">
+            <Parameter name="PortfolioId" />
+          </TargetDefinition>
+          <TargetDefinition name="StockCompany" dataType="StockCompany" designDesc="The stockcompany which should be removed" state="designApproved">
+            <Parameter name="StockCompanyId" />
+          </TargetDefinition>
+          <MethodExecute name="RemoveStockCompanyToPortfolio" designDesc="Removes the stock company from the portfolio" state="designApproved">
+            <Target name="Portfolio" />
+            <Target name="StockCompany" />
+          </MethodExecute>
+          <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
+            <Target name="Portfolio" />
           </MethodExecute>
         </SequentialExecution>
       </Execution>
