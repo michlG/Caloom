@@ -102,24 +102,24 @@ using System.IO;
 				AddStockCompanyToPortfolioImplementation.ExecuteMethod_StoreObjects(Portfolio);		
 				}
 				}
-				public class RemoveStockCompanyToPortfolioParameters 
+				public class RemoveStockCompanyFromPortfolioParameters 
 		{
 				public string PortfolioId ;
 				public string StockCompanyId ;
 				}
 		
-		public class RemoveStockCompanyToPortfolio 
+		public class RemoveStockCompanyFromPortfolio 
 		{
-				private static void PrepareParameters(RemoveStockCompanyToPortfolioParameters parameters)
+				private static void PrepareParameters(RemoveStockCompanyFromPortfolioParameters parameters)
 		{
 					}
-				public static void Execute(RemoveStockCompanyToPortfolioParameters parameters)
+				public static void Execute(RemoveStockCompanyFromPortfolioParameters parameters)
 		{
 						PrepareParameters(parameters);
-					Portfolio Portfolio = RemoveStockCompanyToPortfolioImplementation.GetTarget_Portfolio(parameters.PortfolioId);	
-				StockCompany StockCompany = RemoveStockCompanyToPortfolioImplementation.GetTarget_StockCompany(parameters.StockCompanyId);	
-				RemoveStockCompanyToPortfolioImplementation.ExecuteMethod_RemoveStockCompanyToPortfolio(Portfolio, StockCompany);		
-				RemoveStockCompanyToPortfolioImplementation.ExecuteMethod_StoreObjects(Portfolio);		
+					Portfolio Portfolio = RemoveStockCompanyFromPortfolioImplementation.GetTarget_Portfolio(parameters.PortfolioId);	
+				StockCompany StockCompany = RemoveStockCompanyFromPortfolioImplementation.GetTarget_StockCompany(parameters.StockCompanyId);	
+				RemoveStockCompanyFromPortfolioImplementation.ExecuteMethod_RemoveStockCompanyToPortfolio(Portfolio, StockCompany);		
+				RemoveStockCompanyFromPortfolioImplementation.ExecuteMethod_StoreObjects(Portfolio);		
 				}
 				}
 		 } 

@@ -380,7 +380,7 @@ div.WordSection1
 		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
 		Store modified objects
 		</div>
-		</p><h1>RemoveStockCompanyToPortfolio (PortfolioId, StockCompanyId)</h1>
+		</p><h1>RemoveStockCompanyFromPortfolio (PortfolioId, StockCompanyId)</h1>
 		<h2>Specifications</h2>
 		<p>		<div class="MsoNormal" >
 		Removes the given stock company from the portfolio

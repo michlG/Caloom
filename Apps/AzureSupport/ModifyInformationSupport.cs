@@ -160,6 +160,15 @@ namespace TheBall
                 });
                 break;
               }
+              case "RemoveStockCompanyFromPortfolio":
+              {
+                RemoveStockCompanyFromPortfolio.Execute(new RemoveStockCompanyFromPortfolioParameters
+                {
+                  PortfolioId = form["Id"],
+                  StockCompanyId = form["StockCompanyId"]
+                });
+                break;
+              }
               default:
                     throw new NotSupportedException("Operation not (yet) supported: " + operationName);
             }

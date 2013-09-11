@@ -3,7 +3,7 @@ using TheBall;
 
 namespace Titan
 {
-  public class RemoveStockCompanyToPortfolioImplementation
+  public class RemoveStockCompanyFromPortfolioImplementation
   {
     public static Portfolio GetTarget_Portfolio(string portfolioId)
     {

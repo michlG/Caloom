@@ -164,7 +164,7 @@
           </SequentialExecution>
         </Execution>
       </Operation>
-      <Operation name="RemoveStockCompanyToPortfolio">
+      <Operation name="RemoveStockCompanyFromPortfolio">
         <OperationSpec>
           <Description>Removes the given stock company from the portfolio</Description>
         </OperationSpec>
