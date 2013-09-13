@@ -141,4 +141,138 @@ using System.IO;
 				CreateAndSendEmailValidationForDeviceJoinConfirmationImplementation.ExecuteMethod_SendEmailConfirmation(parameters.DeviceMembership, EmailValidation, OwnerEmailAddresses);		
 				}
 				}
+				public class CreateInformationInputParameters 
+		{
+				public IContainerOwner Owner ;
+				public string InputDescription ;
+				public string LocationURL ;
+				}
+		
+		public class CreateInformationInput 
+		{
+				private static void PrepareParameters(CreateInformationInputParameters parameters)
+		{
+					}
+				public static CreateInformationInputReturnValue Execute(CreateInformationInputParameters parameters)
+		{
+						PrepareParameters(parameters);
+					InformationInput CreatedInformationInput = CreateInformationInputImplementation.GetTarget_CreatedInformationInput(parameters.Owner, parameters.InputDescription, parameters.LocationURL);	
+				CreateInformationInputImplementation.ExecuteMethod_StoreObject(CreatedInformationInput);		
+				CreateInformationInputReturnValue returnValue = CreateInformationInputImplementation.Get_ReturnValue(CreatedInformationInput);
+		return returnValue;
+				}
+				}
+				public class CreateInformationInputReturnValue 
+		{
+				public InformationInput InformationInput ;
+				}
+				public class SetInformationInputValidationAndActiveStatusParameters 
+		{
+				public IContainerOwner Owner ;
+				public string InformationInputID ;
+				public bool IsValidAndActive ;
+				}
+		
+		public class SetInformationInputValidationAndActiveStatus 
+		{
+				private static void PrepareParameters(SetInformationInputValidationAndActiveStatusParameters parameters)
+		{
+					}
+				public static void Execute(SetInformationInputValidationAndActiveStatusParameters parameters)
+		{
+						PrepareParameters(parameters);
+					InformationInput InformationInput = SetInformationInputValidationAndActiveStatusImplementation.GetTarget_InformationInput(parameters.Owner, parameters.InformationInputID);	
+				SetInformationInputValidationAndActiveStatusImplementation.ExecuteMethod_SetInputValidAndActiveValue(parameters.IsValidAndActive, InformationInput);		
+				SetInformationInputValidationAndActiveStatusImplementation.ExecuteMethod_StoreObject(InformationInput);		
+				}
+				}
+				public class DeleteInformationInputParameters 
+		{
+				public IContainerOwner Owner ;
+				public string InformationInputID ;
+				}
+		
+		public class DeleteInformationInput 
+		{
+				private static void PrepareParameters(DeleteInformationInputParameters parameters)
+		{
+					}
+				public static void Execute(DeleteInformationInputParameters parameters)
+		{
+						PrepareParameters(parameters);
+					InformationInput InformationInput = DeleteInformationInputImplementation.GetTarget_InformationInput(parameters.Owner, parameters.InformationInputID);	
+				DeleteInformationInputImplementation.ExecuteMethod_DeleteInformationInput(InformationInput);		
+				}
+				}
+				public class CreateAndSendEmailValidationForInformationInputConfirmationParameters 
+		{
+				public AaltoGlobalImpact.OIP.TBAccount OwningAccount ;
+				public AaltoGlobalImpact.OIP.TBCollaboratingGroup OwningGroup ;
+				public InformationInput InformationInput ;
+				}
+		
+		public class CreateAndSendEmailValidationForInformationInputConfirmation 
+		{
+				private static void PrepareParameters(CreateAndSendEmailValidationForInformationInputConfirmationParameters parameters)
+		{
+					}
+				public static void Execute(CreateAndSendEmailValidationForInformationInputConfirmationParameters parameters)
+		{
+						PrepareParameters(parameters);
+					string[] OwnerEmailAddresses = CreateAndSendEmailValidationForInformationInputConfirmationImplementation.GetTarget_OwnerEmailAddresses(parameters.OwningAccount, parameters.OwningGroup);	
+				AaltoGlobalImpact.OIP.TBEmailValidation EmailValidation = CreateAndSendEmailValidationForInformationInputConfirmationImplementation.GetTarget_EmailValidation(parameters.OwningAccount, parameters.OwningGroup, parameters.InformationInput, OwnerEmailAddresses);	
+				CreateAndSendEmailValidationForInformationInputConfirmationImplementation.ExecuteMethod_StoreObject(EmailValidation);		
+				CreateAndSendEmailValidationForInformationInputConfirmationImplementation.ExecuteMethod_SendEmailConfirmation(parameters.InformationInput, EmailValidation, OwnerEmailAddresses);		
+				}
+				}
+				public class FetchInputInformationParameters 
+		{
+				public IContainerOwner Owner ;
+				public string InformationInputID ;
+				public string QueryParameters ;
+				}
+		
+		public class FetchInputInformation 
+		{
+				private static void PrepareParameters(FetchInputInformationParameters parameters)
+		{
+					}
+				public static void Execute(FetchInputInformationParameters parameters)
+		{
+						PrepareParameters(parameters);
+					InformationInput InformationInput = FetchInputInformationImplementation.GetTarget_InformationInput(parameters.Owner, parameters.InformationInputID);	
+				FetchInputInformationImplementation.ExecuteMethod_VerifyValidInput(InformationInput);		
+				string InputFetchLocation = FetchInputInformationImplementation.GetTarget_InputFetchLocation(InformationInput);	
+				string InputFetchName = FetchInputInformationImplementation.GetTarget_InputFetchName(InformationInput);	
+				FetchInputInformationImplementation.ExecuteMethod_FetchInputToStorage(parameters.Owner, parameters.QueryParameters, InformationInput, InputFetchLocation, InputFetchName);		
+				}
+				}
+				public class ProcessFetchedInputsParameters 
+		{
+				public IContainerOwner Owner ;
+				public string InformationInputID ;
+				public string ProcessingOperationName ;
+				}
+		
+		public class ProcessFetchedInputs 
+		{
+				private static void PrepareParameters(ProcessFetchedInputsParameters parameters)
+		{
+					}
+				public class ProcessInputFromStorageReturnValue 
+		{
+				public IInformationObject[] ProcessingResultsToStore ;
+				public IInformationObject[] ProcessingResultsToDelete ;
+				}
+				public static void Execute(ProcessFetchedInputsParameters parameters)
+		{
+						PrepareParameters(parameters);
+					InformationInput InformationInput = ProcessFetchedInputsImplementation.GetTarget_InformationInput(parameters.Owner, parameters.InformationInputID);	
+				ProcessFetchedInputsImplementation.ExecuteMethod_VerifyValidInput(InformationInput);		
+				string InputFetchLocation = ProcessFetchedInputsImplementation.GetTarget_InputFetchLocation(InformationInput);	
+				ProcessInputFromStorageReturnValue ProcessInputFromStorageOutput = ProcessFetchedInputsImplementation.ExecuteMethod_ProcessInputFromStorage(parameters.ProcessingOperationName, InformationInput, InputFetchLocation);		
+				ProcessFetchedInputsImplementation.ExecuteMethod_StoreObjects(ProcessInputFromStorageOutput.ProcessingResultsToStore);		
+				ProcessFetchedInputsImplementation.ExecuteMethod_DeleteObjects(ProcessInputFromStorageOutput.ProcessingResultsToDelete);		
+				}
+				}
 		 } 

@@ -36,6 +36,9 @@
       <HintPath>Ext\AWSSDK.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JsonFx">
+      <HintPath>..\..\Tools\Ext\JsonFx.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />

@@ -24,6 +24,7 @@ namespace WebTemplateManager
                 //SecurityNegotiationManager.EchoClient();
                 //Console.ReadLine(); // Enter to exit
                 //return;
+
                 //return;
                 if (args.Length != 4 || args[0].Length != 4)
                 {
