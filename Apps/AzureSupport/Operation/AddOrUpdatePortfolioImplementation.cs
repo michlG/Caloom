@@ -12,7 +12,10 @@ namespace Titan
         portfolio.SetLocationAsOwnerContent(InformationContext.Current.Owner, portfolio.ID);
         var collection = PortfolioCollection.RetrieveFromOwnerContent(InformationContext.Current.Owner, "default");
         collection.CollectionContent.Add(portfolio);
-        collection.StoreInformation();
+        collection.StoreInformationMasterFirst(InformationContext.Current.Owner, true);
+        var coll = new StockCompanyCollection();
+        coll.SetLocationAsOwnerContent(InformationContext.Current.Owner, "Portfolios/" + portfolio.ID);
+        coll.StoreInformation();
         return portfolio;
       }
       return Portfolio.RetrieveFromOwnerContent(InformationContext.Current.Owner, id);
@@ -25,7 +28,7 @@ namespace Titan
 
     public static void ExecuteMethod_StoreObjects(Portfolio portfolio)
     {
-      portfolio.StoreInformation();
+      portfolio.StoreInformationMasterFirst(InformationContext.Current.Owner, true);
     }
   }
 }

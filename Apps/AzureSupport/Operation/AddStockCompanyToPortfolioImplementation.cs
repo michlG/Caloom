@@ -1,12 +1,14 @@
-﻿using TheBall;
+﻿using System.Linq;
+using TheBall;
 
 namespace Titan
 {
   class AddStockCompanyToPortfolioImplementation
   {
-    public static Portfolio GetTarget_Portfolio(string portfolioId)
+    public static StockCompanyCollection GetTarget_StockCompanyCollection(string portfolioId)
     {
-      return Portfolio.RetrieveFromOwnerContent(InformationContext.Current.Owner, portfolioId);
+      return StockCompanyCollection.RetrieveFromOwnerContent(InformationContext.Current.Owner,
+        "Portfolios/" + portfolioId);
     }
 
     public static StockCompany GetTarget_StockCompany(string stockCompanyId)
@@ -14,14 +16,15 @@ namespace Titan
       return StockCompany.RetrieveFromOwnerContent(InformationContext.Current.Owner, stockCompanyId);
     }
 
-    public static void ExecuteMethod_AddStockCompanyToPortfolio(Portfolio portfolio, StockCompany stockCompany)
+    public static void ExecuteMethod_AddStockCompanyToCollection(StockCompanyCollection stockCompanyCollection, StockCompany stockCompany)
     {
-      portfolio.StockCompanies.CollectionContent.Add(stockCompany);
+      if(stockCompanyCollection.CollectionContent.Count(x => x.ID == stockCompany.ID) == 0)
+        stockCompanyCollection.CollectionContent.Add(stockCompany);
     }
 
-    public static void ExecuteMethod_StoreObjects(Portfolio portfolio)
+    public static void ExecuteMethod_StoreObjects(StockCompanyCollection stockCompanyCollection)
     {
-      portfolio.StoreInformation();
+      stockCompanyCollection.StoreInformation();
     }
   }
 }

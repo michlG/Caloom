@@ -212,5 +212,28 @@ namespace TheBall
 //                SendEmail(FromAddress, emailAddress, "Device Join Confirmation", message);
 //            }
     }
+
+    public static void SendInputJoinEmail(TBEmailValidation emailValidation, InformationInput informationInput, string[] ownerEmailAddresses)
+    {
+      string urlLink = GetUrlLink(emailValidation.ID);
+      QueueSupport.ReportStatistics("Input Join Email sent! Link: " + urlLink, TimeSpan.FromDays(1));
+//      bool isAccount = emailValidation.InformationInputConfirmation.AccountID != null;
+//      string ownerID = isAccount
+//                           ? emailValidation.InformationInputConfirmation.AccountID
+//                           : emailValidation.InformationInputConfirmation.GroupID;
+//      string emailMessageFormat =
+//          @"Your confirmation is required to allow the following information source '{0}' to be fetched within {1} ID {2}. 
+//
+//
+//Click the following link to confirm this action:
+//{3}";
+//      string message = String.Format(emailMessageFormat, informationInput.Description,
+//                                     isAccount ? "account" : "collaboration group", ownerID, urlLink);
+//      foreach (string emailAddress in ownerEmailAddresses)
+//      {
+//        SendEmail(FromAddress, emailAddress, "Information Input Confirmation", message);
+//      }
+    }
+
   }
 }

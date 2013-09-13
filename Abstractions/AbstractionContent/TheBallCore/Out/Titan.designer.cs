@@ -2694,7 +2694,6 @@ using TheBall.CORE;
 				public static Portfolio CreateDefault()
 				{
 					var result = new Portfolio();
-					result.StockCompanies = PortfolioStockCompanyCollection.CreateDefault();
 					return result;
 				}
 
@@ -2707,7 +2706,6 @@ using TheBall.CORE;
 					var result = new Portfolio();
 					result.PortfolioName = @"Portfolio.PortfolioName";
 
-					result.StockCompanies = PortfolioStockCompanyCollection.CreateDemoDefault();
 				
 					return result;
 				}
@@ -2717,11 +2715,6 @@ using TheBall.CORE;
 				{
 					//Type collType = masterInstance.GetType();
 					//string typeName = collType.Name;
-					if(masterInstance is PortfolioStockCompanyCollection) {
-						Titan.CollectionUpdateImplementation.Update_Portfolio_StockCompanies(this, localCollection:StockCompanies, masterCollection:(PortfolioStockCompanyCollection) masterInstance);
-					} else if(StockCompanies != null) {
-						((IInformationObject) StockCompanies).UpdateCollections(masterInstance);
-					}
 				}
 
 
@@ -2739,14 +2732,6 @@ using TheBall.CORE;
 				{
 					if(filterOnFalse(this))
 						result.Add(this);
-					{ // Scoping block for variable name reusability
-						IInformationObject item = StockCompanies;
-						if(item != null)
-						{
-							item.FindObjectsFromTree(result, filterOnFalse, searchWithinCurrentMasterOnly);
-						}
-					} // Scoping block end
-
 					if(searchWithinCurrentMasterOnly == false)
 					{
 					}					
@@ -2755,15 +2740,6 @@ using TheBall.CORE;
 
 				private object FindFromObjectTree(string objectId)
 				{
-					{
-						var item = StockCompanies;
-						if(item != null)
-						{
-							object result = item.FindObjectByID(objectId);
-							if(result != null)
-								return result;
-						}
-					}
 					return null;
 				}
 
@@ -2784,11 +2760,6 @@ using TheBall.CORE;
 							existingValue.Add(iObject);
 						}
 					}
-					{
-						var item = (IInformationObject) StockCompanies;
-						if(item != null)
-							item.CollectMasterObjectsFromTree(result, filterOnFalse);
-					}
 
 				}
 
@@ -2796,17 +2767,6 @@ using TheBall.CORE;
 					get {
 						if(PortfolioName != _unmodified_PortfolioName)
 							return true;
-						if(StockCompanies != _unmodified_StockCompanies)
-							return true;
-						{
-							IInformationObject item = (IInformationObject) StockCompanies;
-							if(item != null) 
-							{
-								bool isItemTreeModified = item.IsInstanceTreeModified;
-								if(isItemTreeModified)
-									return true;
-							}
-						}
 				
 						return false;
 					}
@@ -2814,21 +2774,12 @@ using TheBall.CORE;
 
 				void IInformationObject.ReplaceObjectInTree(IInformationObject replacingObject)
 				{
-					if(StockCompanies != null) {
-						if(StockCompanies.ID == replacingObject.ID)
-							StockCompanies = (PortfolioStockCompanyCollection) replacingObject;
-						else {
-							IInformationObject iObject = StockCompanies;
-							iObject.ReplaceObjectInTree(replacingObject);
-						}
-					}
 				}
 
 
 				private void CopyContentFrom(Portfolio sourceObject)
 				{
 					PortfolioName = sourceObject.PortfolioName;
-					StockCompanies = sourceObject.StockCompanies;
 				}
 				
 
@@ -2837,10 +2788,6 @@ using TheBall.CORE;
 				{
 					_unmodified_PortfolioName = PortfolioName;
 				
-					_unmodified_StockCompanies = StockCompanies;
-					if(StockCompanies != null)
-						((IInformationObject) StockCompanies).SetInstanceTreeValuesAsUnmodified();
-
 				
 				}
 
@@ -2861,9 +2808,6 @@ using TheBall.CORE;
 			[DataMember]
 			public string PortfolioName { get; set; }
 			private string _unmodified_PortfolioName;
-			[DataMember]
-			public PortfolioStockCompanyCollection StockCompanies { get; set; }
-			private PortfolioStockCompanyCollection _unmodified_StockCompanies;
 			
 			}
 			[DataContract]

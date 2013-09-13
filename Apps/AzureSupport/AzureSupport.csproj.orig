@@ -69,10 +69,10 @@
     <Compile Include="..\..\Abstractions\AbstractionContent\TheBallCore\Out\TheBallCore.designer.cs">
       <Link>Abstractions\TheBallCore.designer.cs</Link>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="..\..\Abstractions\AbstractionContent\TheBallCore\Out\Titan.designer.cs">
       <Link>Abstractions\Titan.designer.cs</Link>
     </Compile>
-    <Compile Include="JSONSupport.cs" />
     <Compile Include="Operation\AddOrUpdatePortfolioImplementation.cs" />
     <Compile Include="Operation\AddStockCompanyToPortfolioImplementation.cs" />
     <Compile Include="Operation\CollectionUpdateImplementation.cs" />
@@ -86,14 +86,20 @@
     <Compile Include="Partials\PortfolioCollection.cs" />
     <Compile Include="Partials\StockCompany.cs" />
     <Compile Include="Partials\StockCompanyCollection.cs" />
-    <Compile Include="TheBall.CORE\CreateAndSendEmailValidationForDeviceJoinConfirmationImplementation.cs" />
-    <Compile Include="TheBall.CORE\CreateAndSendEmailValidationForInformationInputConfirmationImplementation.cs" />
-    <Compile Include="TheBall.CORE\CreateInformationInputImplementation.cs" />
-    <Compile Include="TheBall.CORE\DeleteDeviceMembershipImplementation.cs" />
-    <Compile Include="TheBall.CORE\DeleteInformationInputImplementation.cs" />
-    <Compile Include="TheBall.CORE\FetchInputInformationImplementation.cs" />
+=======
+    <Compile Include="TheBall.CORE\DeviceMembershipCollection.cs" />
     <Compile Include="TheBall.CORE\InformationInputCollection.cs" />
     <Compile Include="TheBall.CORE\ProcessFetchedInputsImplementation.cs" />
+    <Compile Include="TheBall.CORE\FetchInputInformationImplementation.cs" />
+    <Compile Include="TheBall.CORE\CreateAndSendEmailValidationForInformationInputConfirmationImplementation.cs" />
+    <Compile Include="TheBall.CORE\DeleteInformationInputImplementation.cs" />
+    <Compile Include="TheBall.CORE\SetInformationInputValidationAndActiveStatusImplementation.cs" />
+    <Compile Include="TheBall.CORE\CreateInformationInputImplementation.cs" />
+    <Compile Include="InstanceConfiguration.cs" />
+    <Compile Include="JSONSupport.cs" />
+>>>>>>> 6fbfa1eb07e6a0744bfde0cb3a3df9e3321087dd
+    <Compile Include="TheBall.CORE\CreateAndSendEmailValidationForDeviceJoinConfirmationImplementation.cs" />
+    <Compile Include="TheBall.CORE\DeleteDeviceMembershipImplementation.cs" />
     <Compile Include="TheBall.CORE\SetDeviceMembershipValidationAndActiveStatusImplementation.cs" />
     <Compile Include="TheBall.CORE\CreateDeviceMembershipImplementation.cs" />
     <Compile Include="AdditionalFormatSupport.cs" />
@@ -193,7 +199,6 @@
     <Compile Include="Partials\TBAccount.cs" />
     <Compile Include="Partials\TBCollaboratingGroup.cs" />
     <Compile Include="Partials\TBRLoginGroupRoot.cs" />
-    <Compile Include="TheBall.CORE\SetInformationInputValidationAndActiveStatusImplementation.cs" />
     <Compile Include="TheBall.CORE\SystemSupport.cs" />
     <Compile Include="WebSupport.cs" />
     <Compile Include="WorkerSupport.cs" />

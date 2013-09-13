@@ -85,9 +85,6 @@
           <MethodExecute name="RemovePortfolio" designDesc="Removes the portfolio" state="designApproved">
             <Target name="Portfolio" />
           </MethodExecute>
-          <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
-            <Target name="Portfolio" />
-          </MethodExecute>
         </SequentialExecution>
       </Execution>
     </Operation>
@@ -101,18 +98,18 @@
       </Parameters>
       <Execution>
         <SequentialExecution>
-          <TargetDefinition name="Portfolio" dataType="Portfolio" designDesc="The portfolio to which the stock company should be added" state="designApproved">
+          <TargetDefinition name="StockCompanyCollection" dataType="StockCompanyCollection" designDesc="The collection to which the stock company should be added" state="designApproved">
             <Parameter name="PortfolioId" />
           </TargetDefinition>
           <TargetDefinition name="StockCompany" dataType="StockCompany" designDesc="The stockcompany which should be added" state="designApproved">
             <Parameter name="StockCompanyId" />
           </TargetDefinition>
-          <MethodExecute name="AddStockCompanyToPortfolio" designDesc="Adds the stock company to the portfolio" state="designApproved">
-            <Target name="Portfolio" />
+          <MethodExecute name="AddStockCompanyToCollection" designDesc="Adds the stock company to the collection" state="designApproved">
+            <Target name="StockCompanyCollection" />
             <Target name="StockCompany" />
           </MethodExecute>
           <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
-            <Target name="Portfolio" />
+            <Target name="StockCompanyCollection" />
           </MethodExecute>
         </SequentialExecution>
       </Execution>
@@ -127,18 +124,18 @@
       </Parameters>
       <Execution>
         <SequentialExecution>
-          <TargetDefinition name="Portfolio" dataType="Portfolio" designDesc="The portfolio from which the stock company should be removed" state="designApproved">
+          <TargetDefinition name="StockCompanyCollection" dataType="StockCompanyCollection" designDesc="The collection to which the stock company should be added" state="designApproved">
             <Parameter name="PortfolioId" />
           </TargetDefinition>
           <TargetDefinition name="StockCompany" dataType="StockCompany" designDesc="The stockcompany which should be removed" state="designApproved">
             <Parameter name="StockCompanyId" />
           </TargetDefinition>
-          <MethodExecute name="RemoveStockCompanyToPortfolio" designDesc="Removes the stock company from the portfolio" state="designApproved">
-            <Target name="Portfolio" />
+          <MethodExecute name="RemoveStockCompanyFromCollection" designDesc="Removes the stock company from the collection" state="designApproved">
+            <Target name="StockCompanyCollection" />
             <Target name="StockCompany" />
           </MethodExecute>
           <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
-            <Target name="Portfolio" />
+            <Target name="StockCompanyCollection" />
           </MethodExecute>
         </SequentialExecution>
       </Execution>

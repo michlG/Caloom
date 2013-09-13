@@ -1321,47 +1321,54 @@ namespace TheBall
         
         public static IEnumerable<IInformationObject> GetInformationObjects(this CloudBlobContainer container, string directoryLocation, Predicate<string> filterByFullName = null, Predicate<IInformationObject> filterIfFalse = null)
         {
+          try
+          {
             var informationObjectBlobs =
-                GetFilteredBlobListing(container, directoryLocation,
-                                       blob =>
-                                           {
-                                               bool passFilterByName = false;
-                                               if (filterByFullName != null)
-                                                   passFilterByName =
-                                                       filterByFullName(blob.Name);
-                                               else
-                                                   passFilterByName = true;
-                                               if (passFilterByName == false)
-                                                   return false;
-                                               return blob.GetBlobInformationType() ==
-                                                      StorageSupport.InformationType_InformationObjectValue;
-                                           });
+              GetFilteredBlobListing(container, directoryLocation,
+                blob =>
+                {
+                  bool passFilterByName = false;
+                  if (filterByFullName != null)
+                    passFilterByName =
+                      filterByFullName(blob.Name);
+                  else
+                    passFilterByName = true;
+                  if (passFilterByName == false)
+                    return false;
+                  return blob.GetBlobInformationType() ==
+                         StorageSupport.InformationType_InformationObjectValue;
+                });
             if (filterByFullName != null)
-                informationObjectBlobs = informationObjectBlobs.Where(blob => filterByFullName(blob.Name));
+              informationObjectBlobs = informationObjectBlobs.Where(blob => filterByFullName(blob.Name));
             var result = informationObjectBlobs.Select(blob =>
-                                                           {
-                                                               string informationObjectLocation = blob.Name;
-                                                               string informationObjectType =
-                                                                   blob.GetBlobInformationObjectType();
-                                                               IInformationObject iObj = null;
-                                                               try
-                                                               {
-                                                                   Debug.WriteLine("Loading type: " +
-                                                                                   informationObjectType + " from " +
-                                                                                   informationObjectLocation);
-                                                                   iObj = RetrieveInformation(
-                                                                       informationObjectLocation, informationObjectType);
-                                                               }
-                                                               catch (InvalidDataException dataException)
-                                                               {
-                                                                   Debug.WriteLine("Failed due to invalid data");
-                                                                   // Old types and such cause this, ignore and allow returning null.
-                                                               }
-                                                               return iObj;
-                                                           }).Where(iObj => iObj != null);
+            {
+              string informationObjectLocation = blob.Name;
+              string informationObjectType =
+                blob.GetBlobInformationObjectType();
+              IInformationObject iObj = null;
+              try
+              {
+                Debug.WriteLine("Loading type: " +
+                                informationObjectType + " from " +
+                                informationObjectLocation);
+                iObj = RetrieveInformation(
+                  informationObjectLocation, informationObjectType);
+              }
+              catch (InvalidDataException dataException)
+              {
+                Debug.WriteLine("Failed due to invalid data");
+                // Old types and such cause this, ignore and allow returning null.
+              }
+              return iObj;
+            }).Where(iObj => iObj != null);
             if (filterIfFalse != null)
-                result = result.Where(iObj => filterIfFalse(iObj));
+              result = result.Where(iObj => filterIfFalse(iObj));
             return result;
+          }
+          catch (Exception ex)
+          {
+            return null;
+          }
         }
 
         public static IEnumerable<IListBlobItem> GetContentBlobListing(IContainerOwner owner, string contentType)

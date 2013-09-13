@@ -21,8 +21,7 @@ namespace TheBallTool
         {
             try
             {
-                string connStr = String.Format("DefaultEndpointsProtocol=http;AccountName=theballmichael;AccountKey={0}",
-                                               args[0]);
+              string connStr = "DefaultEndpointsProtocol=https;AccountName=theballmichael;AccountKey=CWz4Sp47JIASPy99OMQX+MCdbc82pHqI0obsTAeRNb2k++YVhssKZ1RVAal8LVvA0ekXddWKIBQ7LA3Z0P6bAA==";
                 //connStr = "UseDevelopmentStorage=true";
                 bool debugMode = false;
 
@@ -30,10 +29,14 @@ namespace TheBallTool
                 InformationContext.InitializeFunctionality(3, true);
                 InformationContext.Current.InitializeCloudStorageAccess(Properties.Settings.Default.CurrentActiveContainerName);
 
-                if(DataPatcher.DoPatching())
-                    return;
+              if (DataPatcher.DoPatching())
+              {
+                Console.WriteLine("DONE");
+                Console.ReadLine();
+                return;
+              }
 
-                //ProcessErrors(false);
+              //ProcessErrors(false);
                 //return;
 
                 string templateLocation = "livetemplate";

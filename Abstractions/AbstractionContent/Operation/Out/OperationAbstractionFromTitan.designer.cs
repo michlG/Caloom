@@ -79,7 +79,6 @@ using System.IO;
 						PrepareParameters(parameters);
 					Portfolio Portfolio = RemovePortfolioImplementation.GetTarget_Portfolio(parameters.Id);	
 				RemovePortfolioImplementation.ExecuteMethod_RemovePortfolio(Portfolio);		
-				RemovePortfolioImplementation.ExecuteMethod_StoreObjects(Portfolio);		
 				}
 				}
 				public class AddStockCompanyToPortfolioParameters 
@@ -96,10 +95,10 @@ using System.IO;
 				public static void Execute(AddStockCompanyToPortfolioParameters parameters)
 		{
 						PrepareParameters(parameters);
-					Portfolio Portfolio = AddStockCompanyToPortfolioImplementation.GetTarget_Portfolio(parameters.PortfolioId);	
+					StockCompanyCollection StockCompanyCollection = AddStockCompanyToPortfolioImplementation.GetTarget_StockCompanyCollection(parameters.PortfolioId);	
 				StockCompany StockCompany = AddStockCompanyToPortfolioImplementation.GetTarget_StockCompany(parameters.StockCompanyId);	
-				AddStockCompanyToPortfolioImplementation.ExecuteMethod_AddStockCompanyToPortfolio(Portfolio, StockCompany);		
-				AddStockCompanyToPortfolioImplementation.ExecuteMethod_StoreObjects(Portfolio);		
+				AddStockCompanyToPortfolioImplementation.ExecuteMethod_AddStockCompanyToCollection(StockCompanyCollection, StockCompany);		
+				AddStockCompanyToPortfolioImplementation.ExecuteMethod_StoreObjects(StockCompanyCollection);		
 				}
 				}
 				public class RemoveStockCompanyFromPortfolioParameters 
@@ -116,10 +115,10 @@ using System.IO;
 				public static void Execute(RemoveStockCompanyFromPortfolioParameters parameters)
 		{
 						PrepareParameters(parameters);
-					Portfolio Portfolio = RemoveStockCompanyFromPortfolioImplementation.GetTarget_Portfolio(parameters.PortfolioId);	
+					StockCompanyCollection StockCompanyCollection = RemoveStockCompanyFromPortfolioImplementation.GetTarget_StockCompanyCollection(parameters.PortfolioId);	
 				StockCompany StockCompany = RemoveStockCompanyFromPortfolioImplementation.GetTarget_StockCompany(parameters.StockCompanyId);	
-				RemoveStockCompanyFromPortfolioImplementation.ExecuteMethod_RemoveStockCompanyToPortfolio(Portfolio, StockCompany);		
-				RemoveStockCompanyFromPortfolioImplementation.ExecuteMethod_StoreObjects(Portfolio);		
+				RemoveStockCompanyFromPortfolioImplementation.ExecuteMethod_RemoveStockCompanyFromCollection(StockCompanyCollection, StockCompany);		
+				RemoveStockCompanyFromPortfolioImplementation.ExecuteMethod_StoreObjects(StockCompanyCollection);		
 				}
 				}
 		 } 

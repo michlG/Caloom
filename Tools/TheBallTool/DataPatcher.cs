@@ -629,10 +629,10 @@ namespace TheBallTool
         public static bool DoPatching()
         {
             //return false;
-            Debugger.Break();
-            bool skip = false;
-            if (skip == false)
-                throw new NotSupportedException("Skip this with debugger");
+            //Debugger.Break();
+            //bool skip = false;
+            //if (skip == false)
+            //    throw new NotSupportedException("Skip this with debugger");
 
             //ReconnectAccountsMastersAndCollections();
 
@@ -644,7 +644,7 @@ namespace TheBallTool
             //PatchCategoriesAndTextContentCollectionNodeSummarySpecificGroup("c229a54c-31fe-4c33-957d-e7b52cdbc06a");
             //FixGroupMastersAndCollections("c229a54c-31fe-4c33-957d-e7b52cdbc06a"); // Proj1
             //PatchCategoriesAndTextContentCollectionNodeSummarySpecificGroup("0d687b5f-d032-4f36-a5ea-6ff4fb3c5963");
-            FixGroupMastersAndCollections("0d687b5f-d032-4f36-a5ea-6ff4fb3c5963"); // Proj1
+            FixGroupMastersAndCollections("3bfc14eb-33fb-4d7d-b179-ab5ffc6184b7"); // Proj1
             
             //PatchTextContentCollectionNodeSummarySpecificGroup("9798daca-afc4-4046-a99b-d0d88bb364e0");
             //FixGroupMastersAndCollections("9798daca-afc4-4046-a99b-d0d88bb364e0");

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using TheBall;
 
 namespace Titan
@@ -15,16 +12,16 @@ namespace Titan
 
     public static void ExecuteMethod_RemovePortfolio(Portfolio portfolio)
     {
+      if (portfolio == null)
+        return;
       var collection = PortfolioCollection.RetrieveFromOwnerContent(InformationContext.Current.Owner, "default");
       var item = collection.CollectionContent.FirstOrDefault(x => x.ID == portfolio.ID);
       collection.CollectionContent.Remove(item);
       portfolio.DeleteInformationObject();
       collection.StoreInformation();
-    }
-
-    public static void ExecuteMethod_StoreObjects(Portfolio portfolio)
-    {
-      portfolio.StoreInformation();
+      var companyCollection= StockCompanyCollection.RetrieveFromOwnerContent(InformationContext.Current.Owner,
+        "Portfolios/" + portfolio.ID);
+      companyCollection.DeleteInformationObject();
     }
   }
 }

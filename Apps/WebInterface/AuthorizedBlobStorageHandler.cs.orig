@@ -6,6 +6,7 @@ using System.Security;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Security;
+using System.Web.Services.Description;
 using AaltoGlobalImpact.OIP;
 using AzureSupport;
 using DotNetOpenAuth.OpenId.RelyingParty;
@@ -13,6 +14,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using TheBall;
 using TheBall.CORE;
+using Titan;
 
 namespace WebInterface
 {
@@ -195,12 +197,21 @@ namespace WebInterface
 
         private void HandleOwnerPostRequest(IContainerOwner containerOwner, HttpContext context, string contentPath)
         {
+          InformationContext.Current.Owner = containerOwner;
             HttpRequest request = context.Request;
             var form = request.Unvalidated().Form;
 
-            bool isAjaxDataRequest = form.Get("AjaxObjectInfo") != null;
+            bool isAjaxDataRequest = request.ContentType.StartsWith("application/json"); // form.Get("AjaxObjectInfo") != null;
             if (isAjaxDataRequest)
             {
+                // Various data deserialization tests - options need to be properly set
+                // strong type radically faster 151ms over 25sec with flexible type - something ill
+                throw new NotSupportedException("Not supported as-is, implementation for serialization available, not finished");
+                var stream = request.GetBufferedInputStream();
+                var dataX = JSONSupport.GetObjectFromStream<NodeSummaryContainer>(stream);
+                var streamReader = new StreamReader(request.GetBufferedInputStream());
+                string data = streamReader.ReadToEnd();
+                var jsonData = JSONSupport.GetJsonFromStream(data);
                 HandlerOwnerAjaxDataPOST(containerOwner, form);
                 return;
             }
@@ -391,16 +402,17 @@ namespace WebInterface
             string prefixStrippedContent = contentPath; //.Substring(AuthGroupPrefixLen + GuidIDLen + 1);
 <<<<<<< HEAD
             string LocalWebRootFolder = @"C:\Users\Michael\WebstormProjects\OIPTemplates\UI\groupmanagement\";
-            string fileName = prefixStrippedContent.Replace("oipcms/", LocalWebRootFolder);
+            string LocalWwwSiteFolder = @"C:\Users\Michael\WebstormProjects\TitanWeb\UI\TitanWeb\";
 =======
             string LocalWebRootFolder = @"C:\Users\kalle\WebstormProjects\OIPTemplates\UI\groupmanagement\";
-            string LocalWwwSiteFolder = @"C:\Users\kalle\WebstormProjects\CustomerWww\EarthhouseWww\UI\earthhouse\";
+            //string LocalWwwSiteFolder = @"C:\Users\kalle\WebstormProjects\CustomerWww\EarthhouseWww\UI\earthhouse\";
+            string LocalWwwSiteFolder = @"C:\Users\kalle\WebstormProjects\CustomerWww\FOIPWww\UI\foip\";
+>>>>>>> 6fbfa1eb07e6a0744bfde0cb3a3df9e3321087dd
             string fileName;
             if (prefixStrippedContent.Contains("oipcms/"))
                 fileName = prefixStrippedContent.Replace("oipcms/", LocalWebRootFolder);
             else
                 fileName = prefixStrippedContent.Replace("wwwsite/", LocalWwwSiteFolder);
->>>>>>> 0925ec66d1d8a32e6abc90d52cdab5676b439972
             if (File.Exists(fileName))
             {
                 var fileStream = File.OpenRead(fileName);
