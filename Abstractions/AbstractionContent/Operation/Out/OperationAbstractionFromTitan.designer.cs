@@ -95,10 +95,10 @@ using System.IO;
 				public static void Execute(AddStockCompanyToPortfolioParameters parameters)
 		{
 						PrepareParameters(parameters);
-					StockCompanyCollection StockCompanyCollection = AddStockCompanyToPortfolioImplementation.GetTarget_StockCompanyCollection(parameters.PortfolioId);	
+					Portfolio Portfolio = AddStockCompanyToPortfolioImplementation.GetTarget_Portfolio(parameters.PortfolioId);	
 				StockCompany StockCompany = AddStockCompanyToPortfolioImplementation.GetTarget_StockCompany(parameters.StockCompanyId);	
-				AddStockCompanyToPortfolioImplementation.ExecuteMethod_AddStockCompanyToCollection(StockCompanyCollection, StockCompany);		
-				AddStockCompanyToPortfolioImplementation.ExecuteMethod_StoreObjects(StockCompanyCollection);		
+				AddStockCompanyToPortfolioImplementation.ExecuteMethod_AddStockCompanyToPortfolio(Portfolio, StockCompany);		
+				AddStockCompanyToPortfolioImplementation.ExecuteMethod_StoreObjects(Portfolio);		
 				}
 				}
 				public class RemoveStockCompanyFromPortfolioParameters 
@@ -115,10 +115,10 @@ using System.IO;
 				public static void Execute(RemoveStockCompanyFromPortfolioParameters parameters)
 		{
 						PrepareParameters(parameters);
-					StockCompanyCollection StockCompanyCollection = RemoveStockCompanyFromPortfolioImplementation.GetTarget_StockCompanyCollection(parameters.PortfolioId);	
+					Portfolio Portfolio = RemoveStockCompanyFromPortfolioImplementation.GetTarget_Portfolio(parameters.PortfolioId);	
 				StockCompany StockCompany = RemoveStockCompanyFromPortfolioImplementation.GetTarget_StockCompany(parameters.StockCompanyId);	
-				RemoveStockCompanyFromPortfolioImplementation.ExecuteMethod_RemoveStockCompanyFromCollection(StockCompanyCollection, StockCompany);		
-				RemoveStockCompanyFromPortfolioImplementation.ExecuteMethod_StoreObjects(StockCompanyCollection);		
+				RemoveStockCompanyFromPortfolioImplementation.ExecuteMethod_RemoveStockCompanyFromPortfolio(Portfolio, StockCompany);		
+				RemoveStockCompanyFromPortfolioImplementation.ExecuteMethod_StoreObjects(Portfolio);		
 				}
 				}
 		 } 

@@ -1,4 +1,5 @@
-﻿using TheBall;
+﻿using System.Collections.Generic;
+using TheBall;
 
 namespace Titan
 {
@@ -10,6 +11,7 @@ namespace Titan
       {
         var portfolio = new Portfolio();
         portfolio.SetLocationAsOwnerContent(InformationContext.Current.Owner, portfolio.ID);
+        portfolio.StockCompanies = new StockCompanyCollection();
         var collection = PortfolioCollection.RetrieveFromOwnerContent(InformationContext.Current.Owner, "default");
         collection.CollectionContent.Add(portfolio);
         collection.StoreInformationMasterFirst(InformationContext.Current.Owner, true);

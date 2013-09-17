@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using AaltoGlobalImpact.OIP;
 using TheBall;
 using TheBall.CORE;
+using Titan;
 using CategoryCollection = AaltoGlobalImpact.OIP.CategoryCollection;
 using OIPDomain = AaltoGlobalImpact.OIP.DomainInformationSupport;
 using CoreDomain = TheBall.CORE.DomainInformationSupport;
@@ -604,21 +605,15 @@ namespace TheBallTool
 
         private static void PatchCategoriesAndTextContentCollectionNodeSummarySpecificGroup(string groupID)
         {
-            var nodesummaryContainers = GetAllInformationObjects(name => name.Contains("NodeSummaryContainer") && name.Contains(groupID),
-                                                                 iObj => iObj is NodeSummaryContainer);
-            foreach (NodeSummaryContainer nodeSummaryContainer in nodesummaryContainers)
+            var nodesummaryContainers = GetAllInformationObjects(name => name.Contains("Portfolio") && name.Contains(groupID),
+                                                                 iObj => iObj is Portfolio);
+            foreach (Portfolio nodeSummaryContainer in nodesummaryContainers)
             {
                 bool changed = false;
-                if (nodeSummaryContainer.NodeSourceTextContent == null)
+                if (nodeSummaryContainer.StockCompanies == null)
                 {
-                    Debug.WriteLine("Fixing nodesummary: " + nodeSummaryContainer.RelativeLocation);
-                    nodeSummaryContainer.NodeSourceTextContent = new TextContentCollection();
-                    changed = true;
-                }
-                if (nodeSummaryContainer.NodeSourceCategories == null)
-                {
-                    Debug.WriteLine("Fixing nodesummary: " + nodeSummaryContainer.RelativeLocation);
-                    nodeSummaryContainer.NodeSourceCategories = new CategoryCollection();
+                    Debug.WriteLine("Fixing Portfolio: " + nodeSummaryContainer.RelativeLocation);
+                    nodeSummaryContainer.StockCompanies = new StockCompanyCollection();
                     changed = true;
                 }
                 if(changed)
@@ -644,8 +639,10 @@ namespace TheBallTool
             //PatchCategoriesAndTextContentCollectionNodeSummarySpecificGroup("c229a54c-31fe-4c33-957d-e7b52cdbc06a");
             //FixGroupMastersAndCollections("c229a54c-31fe-4c33-957d-e7b52cdbc06a"); // Proj1
             //PatchCategoriesAndTextContentCollectionNodeSummarySpecificGroup("0d687b5f-d032-4f36-a5ea-6ff4fb3c5963");
-            FixGroupMastersAndCollections("3bfc14eb-33fb-4d7d-b179-ab5ffc6184b7"); // Proj1
-            
+          //PatchCategoriesAndTextContentCollectionNodeSummarySpecificGroup("3bfc14eb-33fb-4d7d-b179-ab5ffc6184b7");
+          //FixGroupMastersAndCollections("3bfc14eb-33fb-4d7d-b179-ab5ffc6184b7"); // Proj1
+
+          PatchSubscriptionsToSubmitted();
             //PatchTextContentCollectionNodeSummarySpecificGroup("9798daca-afc4-4046-a99b-d0d88bb364e0");
             //FixGroupMastersAndCollections("9798daca-afc4-4046-a99b-d0d88bb364e0");
 

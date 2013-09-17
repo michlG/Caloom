@@ -1,15 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
+using TheBall;
 
 namespace Titan
 {
-  class CollectionUpdateImplementation
+  internal class CollectionUpdateImplementation
   {
-    public static void Update_Portfolio_StockCompanies(Portfolio portfolio, PortfolioStockCompanyCollection localCollection, PortfolioStockCompanyCollection masterCollection)
+    public static void Update_Portfolio_StockCompanies(Portfolio portfolio, StockCompanyCollection localCollection, StockCompanyCollection masterCollection)
     {
-      throw new NotImplementedException();
+      if (portfolio == null || string.IsNullOrEmpty(portfolio.ID))
+        return;
+      Console.WriteLine("UPDATE " + portfolio.ID);
+      foreach (var newItem in masterCollection.CollectionContent)
+      {
+        var oldItem = localCollection.CollectionContent.FirstOrDefault(x => x.ID == newItem.ID);
+        if (oldItem != null)
+        {
+          Debug.Write("REPLACING " + oldItem + "; ");
+          localCollection.CollectionContent.Insert(localCollection.CollectionContent.IndexOf(oldItem), newItem);
+          localCollection.CollectionContent.Remove(oldItem);
+        }
+      }
+      Debug.WriteLine("FINISHED");
     }
   }
 }

@@ -326,19 +326,19 @@ div.WordSection1
 				</td>
 				</tr>
 		</table>
-		</p><h2>Target Definition: StockCompanyCollection ( PortfolioId )</h2>
+		</p><h2>Target Definition: Portfolio ( PortfolioId )</h2>
 		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		The collection to which the stock company should be added
+		The portfolio to which the stock company should be added
 		</div>
 		</p><h2>Target Definition: StockCompany ( StockCompanyId )</h2>
 		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
 		The stockcompany which should be added
 		</div>
-		</p><h2>Method Call: AddStockCompanyToCollection ( StockCompanyCollection, StockCompany )</h2>
+		</p><h2>Method Call: AddStockCompanyToPortfolio ( Portfolio, StockCompany )</h2>
 		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		Adds the stock company to the collection
+		Adds the stock company to the portfolio
 		</div>
-		</p><h2>Method Call: StoreObjects ( StockCompanyCollection )</h2>
+		</p><h2>Method Call: StoreObjects ( Portfolio )</h2>
 		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
 		Store modified objects
 		</div>
@@ -419,19 +419,19 @@ div.WordSection1
 				</td>
 				</tr>
 		</table>
-		</p><h2>Target Definition: StockCompanyCollection ( PortfolioId )</h2>
+		</p><h2>Target Definition: Portfolio ( PortfolioId )</h2>
 		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		The collection to which the stock company should be added
+		The portfolio to which the stock company should be added
 		</div>
 		</p><h2>Target Definition: StockCompany ( StockCompanyId )</h2>
 		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
 		The stockcompany which should be removed
 		</div>
-		</p><h2>Method Call: RemoveStockCompanyFromCollection ( StockCompanyCollection, StockCompany )</h2>
+		</p><h2>Method Call: RemoveStockCompanyFromPortfolio ( Portfolio, StockCompany )</h2>
 		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
-		Removes the stock company from the collection
+		Removes the stock company from the portfolio
 		</div>
-		</p><h2>Method Call: StoreObjects ( StockCompanyCollection )</h2>
+		</p><h2>Method Call: StoreObjects ( Portfolio )</h2>
 		<p>		<div class="MsoNormal" style="color:blue;font-weight:bold;font-style:italic" >
 		Store modified objects
 		</div>

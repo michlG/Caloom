@@ -112,10 +112,10 @@
                 </Table>
               </Paragraph>
             </Header>
-            <Header text="Target Definition: StockCompanyCollection ( PortfolioId )" level="2">
+            <Header text="Target Definition: Portfolio ( PortfolioId )" level="2">
               <Paragraph>
                 <Text styleRef="color:blue;font-weight:bold;font-style:italic">
-                  <TextContent>The collection to which the stock company should be added</TextContent>
+                  <TextContent>The portfolio to which the stock company should be added</TextContent>
                 </Text>
               </Paragraph>
             </Header>
@@ -126,14 +126,14 @@
                 </Text>
               </Paragraph>
             </Header>
-            <Header text="Method Call: AddStockCompanyToCollection ( StockCompanyCollection, StockCompany )" level="2">
+            <Header text="Method Call: AddStockCompanyToPortfolio ( Portfolio, StockCompany )" level="2">
               <Paragraph>
                 <Text styleRef="color:blue;font-weight:bold;font-style:italic">
-                  <TextContent>Adds the stock company to the collection</TextContent>
+                  <TextContent>Adds the stock company to the portfolio</TextContent>
                 </Text>
               </Paragraph>
             </Header>
-            <Header text="Method Call: StoreObjects ( StockCompanyCollection )" level="2">
+            <Header text="Method Call: StoreObjects ( Portfolio )" level="2">
               <Paragraph>
                 <Text styleRef="color:blue;font-weight:bold;font-style:italic">
                   <TextContent>Store modified objects</TextContent>
@@ -231,10 +231,10 @@
                 </Table>
               </Paragraph>
             </Header>
-            <Header text="Target Definition: StockCompanyCollection ( PortfolioId )" level="2">
+            <Header text="Target Definition: Portfolio ( PortfolioId )" level="2">
               <Paragraph>
                 <Text styleRef="color:blue;font-weight:bold;font-style:italic">
-                  <TextContent>The collection to which the stock company should be added</TextContent>
+                  <TextContent>The portfolio to which the stock company should be added</TextContent>
                 </Text>
               </Paragraph>
             </Header>
@@ -245,14 +245,14 @@
                 </Text>
               </Paragraph>
             </Header>
-            <Header text="Method Call: RemoveStockCompanyFromCollection ( StockCompanyCollection, StockCompany )" level="2">
+            <Header text="Method Call: RemoveStockCompanyFromPortfolio ( Portfolio, StockCompany )" level="2">
               <Paragraph>
                 <Text styleRef="color:blue;font-weight:bold;font-style:italic">
-                  <TextContent>Removes the stock company from the collection</TextContent>
+                  <TextContent>Removes the stock company from the portfolio</TextContent>
                 </Text>
               </Paragraph>
             </Header>
-            <Header text="Method Call: StoreObjects ( StockCompanyCollection )" level="2">
+            <Header text="Method Call: StoreObjects ( Portfolio )" level="2">
               <Paragraph>
                 <Text styleRef="color:blue;font-weight:bold;font-style:italic">
                   <TextContent>Store modified objects</TextContent>

@@ -1006,10 +1006,18 @@ namespace TheBall
 
         public static IInformationObject RetrieveInformation(string relativeLocation, string typeName, string eTag = null, IContainerOwner owner = null)
         {
+          try
+          {
             Type type = Assembly.GetExecutingAssembly().GetType(typeName);
-            if(type == null)
-                throw new InvalidDataException("Type not found: " + typeName);
+            if (type == null)
+              throw new InvalidDataException("Type not found: " + typeName);
             return RetrieveInformation(relativeLocation, type, eTag, owner);
+          }
+          catch (Exception ex)
+          {
+            //TODO: clear old subscription; Workers failed because they have been unable to find the type.
+            return null;
+          }
         }
 
         public static IInformationObject RetrieveInformationWithBlob(string relativeLocation, string typeName, out CloudBlob blob, string eTag = null, IContainerOwner owner = null)

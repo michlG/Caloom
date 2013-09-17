@@ -25,9 +25,6 @@
       <InformationObject name="StockCompanyCollection" designDesc="Collection of stock companies">
         <CollectionFor contentInformationObjectName="StockCompany" collectionType="Master" />
       </InformationObject>
-      <InformationObject name="PortfolioStockCompanyCollection" designDesc="Collection of stock companies">
-        <CollectionFor contentInformationObjectName="StockCompany" collectionType="Master" />
-      </InformationObject>
       <InformationObject name="ChartPoint" designDesc="Represents a single point which can be represented in a chart">
         <InformationItems>
           <InformationItem name="Timestamp" logicalDataType="Text_Short"/>
@@ -40,6 +37,7 @@
       <InformationObject name="Portfolio" designDesc="Represents a single portfolio">
         <InformationItems>
           <InformationItem name="PortfolioName" logicalDataType="Text_Short"/>
+          <InformationItem name="StockCompanies" logicalDataType="InformationObject" informationObjectName="StockCompanyCollection" />
         </InformationItems>
       </InformationObject>
       <InformationObject name="PortfolioCollection" designDesc="Collection of portfolios">
@@ -144,18 +142,18 @@
         </Parameters>
         <Execution>
           <SequentialExecution>
-            <TargetDefinition dataType="StockCompanyCollection" name="StockCompanyCollection" designDesc="The collection to which the stock company should be added" state="designApproved">
+            <TargetDefinition dataType="Portfolio" name="Portfolio" designDesc="The portfolio to which the stock company should be added" state="designApproved">
               <Parameter name="PortfolioId"/>
             </TargetDefinition>
             <TargetDefinition dataType="StockCompany" name="StockCompany" designDesc="The stockcompany which should be added" state="designApproved">
               <Parameter name="StockCompanyId"/>
             </TargetDefinition>
-            <MethodExecute name="AddStockCompanyToCollection" designDesc="Adds the stock company to the collection" state="designApproved">
-              <Target name="StockCompanyCollection"/>
+            <MethodExecute name="AddStockCompanyToPortfolio" designDesc="Adds the stock company to the portfolio" state="designApproved">
+              <Target name="Portfolio"/>
               <Target name="StockCompany" />
             </MethodExecute>
             <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
-              <Target name="StockCompanyCollection"/>
+              <Target name="Portfolio"/>
             </MethodExecute>
           </SequentialExecution>
         </Execution>
@@ -170,18 +168,18 @@
         </Parameters>
         <Execution>
           <SequentialExecution>
-            <TargetDefinition dataType="StockCompanyCollection" name="StockCompanyCollection" designDesc="The collection to which the stock company should be added" state="designApproved">
+            <TargetDefinition dataType="Portfolio" name="Portfolio" designDesc="The portfolio to which the stock company should be added" state="designApproved">
               <Parameter name="PortfolioId"/>
             </TargetDefinition>
             <TargetDefinition dataType="StockCompany" name="StockCompany" designDesc="The stockcompany which should be removed" state="designApproved">
               <Parameter name="StockCompanyId"/>
             </TargetDefinition>
-            <MethodExecute name="RemoveStockCompanyFromCollection" designDesc="Removes the stock company from the collection" state="designApproved">
-              <Target name="StockCompanyCollection"/>
+            <MethodExecute name="RemoveStockCompanyFromPortfolio" designDesc="Removes the stock company from the portfolio" state="designApproved">
+              <Target name="Portfolio"/>
               <Target name="StockCompany" />
             </MethodExecute>
             <MethodExecute name="StoreObjects" designDesc="Store modified objects" state="designApproved">
-              <Target name="StockCompanyCollection"/>
+              <Target name="Portfolio"/>
             </MethodExecute>
           </SequentialExecution>
         </Execution>

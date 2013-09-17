@@ -19,9 +19,6 @@ namespace Titan
       collection.CollectionContent.Remove(item);
       portfolio.DeleteInformationObject();
       collection.StoreInformation();
-      var companyCollection= StockCompanyCollection.RetrieveFromOwnerContent(InformationContext.Current.Owner,
-        "Portfolios/" + portfolio.ID);
-      companyCollection.DeleteInformationObject();
     }
   }
 }

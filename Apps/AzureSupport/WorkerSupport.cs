@@ -130,9 +130,12 @@ namespace TheBall
         private static void UpdateCollectionFromDirectory(string collectionType, string collectionLocation, string directoryLocation)
         {
             IInformationObject collectionObject = StorageSupport.RetrieveInformation(collectionLocation, collectionType);
+          if (collectionObject is IInformationCollection)
+          {
             IInformationCollection collection = (IInformationCollection) collectionObject;
             collection.RefreshContent();
             StorageSupport.StoreInformation(collectionObject);
+          }
         }
 
         public static void UpdateContainerFromMaster(string containerLocation, string containerType, string masterLocation, string masterType)
