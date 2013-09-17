@@ -87,6 +87,32 @@ namespace TheBall
             var filterFields = new string[] {"ExecuteOperation", "ObjectDomainName", "ObjectName", "ObjectID"};
             switch (operationName)
             {
+                case "CreateInformationInput":
+                    {
+                        CreateInformationInputParameters parameters = new CreateInformationInputParameters
+                            {
+                                InputDescription = form["InputDescription"],
+                                LocationURL = form["LocationURL"],
+                                Owner = containerOwner
+                            };
+                        var createdInformationInput = CreateInformationInput.Execute(parameters);
+                        var owningAccount = containerOwner as TBAccount;
+                        TBCollaboratingGroup owningGroup = null;
+                        if (owningAccount == null)
+                        {
+                            TBRGroupRoot groupRoot =
+                                TBRGroupRoot.RetrieveFromDefaultLocation(containerOwner.LocationPrefix);
+                            owningGroup = groupRoot.Group;
+                        }
+                        CreateAndSendEmailValidationForInformationInputConfirmationParameters emailParameters = new CreateAndSendEmailValidationForInformationInputConfirmationParameters
+                            {
+                                OwningAccount = owningAccount,
+                                OwningGroup = owningGroup,
+                                InformationInput = createdInformationInput.InformationInput,
+                            };
+                        CreateAndSendEmailValidationForInformationInputConfirmation.Execute(emailParameters);
+                        break;
+                    }
                 case "CreateSpecifiedInformationObjectWithValues":
                     {
                         CreateSpecifiedInformationObjectWithValuesParameters parameters = new CreateSpecifiedInformationObjectWithValuesParameters
