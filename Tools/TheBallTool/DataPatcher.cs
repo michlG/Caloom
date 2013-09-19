@@ -641,8 +641,8 @@ namespace TheBallTool
             //PatchCategoriesAndTextContentCollectionNodeSummarySpecificGroup("0d687b5f-d032-4f36-a5ea-6ff4fb3c5963");
           //PatchCategoriesAndTextContentCollectionNodeSummarySpecificGroup("3bfc14eb-33fb-4d7d-b179-ab5ffc6184b7");
           //FixGroupMastersAndCollections("3bfc14eb-33fb-4d7d-b179-ab5ffc6184b7"); // Proj1
-            FixGroupMastersAndCollections("b9ba3208-bf89-4fa8-bad5-c2cb524b5fd9"); // Proj1
-
+          FixGroupMastersAndCollections("c6f101d0-d4bc-4d1c-8235-53183e1654e9"); // Proj1
+          
           //PatchSubscriptionsToSubmitted();
             //PatchTextContentCollectionNodeSummarySpecificGroup("9798daca-afc4-4046-a99b-d0d88bb364e0");
             //FixGroupMastersAndCollections("9798daca-afc4-4046-a99b-d0d88bb364e0");

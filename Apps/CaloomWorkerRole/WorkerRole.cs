@@ -229,7 +229,7 @@ namespace CaloomWorkerRole
             titanLock.StoreInformation();
           }
         }
-        Thread.Sleep(600000);
+        Thread.Sleep(60000);
       }
     }
 
