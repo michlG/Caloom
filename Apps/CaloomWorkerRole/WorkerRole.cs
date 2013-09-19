@@ -7,6 +7,7 @@
 // ===================================
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -239,6 +240,14 @@ namespace CaloomWorkerRole
       if (inputCollection == null || inputCollection.CollectionContent == null)
         return;
       var coll = StockCompanyCollection.RetrieveFromOwnerContent(owner, "default");
+      if (coll == null)
+      {
+        coll = new StockCompanyCollection();
+        if(coll.CollectionContent == null)
+          coll.CollectionContent = new List<StockCompany>();
+        coll.SetLocationAsOwnerContent(owner, "default");
+        coll.StoreInformation();
+      }
       if (coll.CollectionContent.Count < 10)
       {
         var input = inputCollection.CollectionContent.FirstOrDefault(x => x.LocationURL.Contains("Lookup"));
@@ -368,7 +377,7 @@ namespace CaloomWorkerRole
         titanLock = new TitanLock();
         titanLock.SetLocationAsOwnerContent(owner, "lock");
         titanLock.IsLocked = false;
-        titanLock.LastLocked = DateTime.Now;
+        titanLock.LastLocked = DateTime.MinValue;
         titanLock.StoreInformation();
         titanLock = TitanLock.RetrieveFromOwnerContent(owner, "lock");
       }
