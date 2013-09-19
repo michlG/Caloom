@@ -43,6 +43,12 @@
       <InformationObject name="PortfolioCollection" designDesc="Collection of portfolios">
         <CollectionFor contentInformationObjectName="Portfolio" collectionType="Master" />
       </InformationObject>
+    <InformationObject name="TitanLock" designDesc="A object which is used for locking">
+      <InformationItems>
+          <InformationItem name="LastLocked" logicalDataType="Time_DateTime"/>
+          <InformationItem name="IsLocked" logicalDataType="TrueOrFalse_Boolean"/>
+        </InformationItems>
+    </InformationObject>
     </InformationModel>
     <Operations>
       <Operation name="SetFavouriteStatusOfStockCompany">

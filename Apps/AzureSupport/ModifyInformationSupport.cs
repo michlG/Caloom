@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security;
+using System.Text;
 using System.Web;
 using TheBall.CORE;
 using AaltoGlobalImpact.OIP;
@@ -266,6 +268,5 @@ namespace TheBall
             string containerField = contentInfo.Substring(firstIX + 1);
             rootObject.SetMediaContent(containerOwner, containerID, containerField, postedFile);
         }
-
     }
 }

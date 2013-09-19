@@ -15,9 +15,6 @@ namespace Titan
         var collection = PortfolioCollection.RetrieveFromOwnerContent(InformationContext.Current.Owner, "default");
         collection.CollectionContent.Add(portfolio);
         collection.StoreInformationMasterFirst(InformationContext.Current.Owner, true);
-        var coll = new StockCompanyCollection();
-        coll.SetLocationAsOwnerContent(InformationContext.Current.Owner, "Portfolios/" + portfolio.ID);
-        coll.StoreInformation();
         return portfolio;
       }
       return Portfolio.RetrieveFromOwnerContent(InformationContext.Current.Owner, id);
